@@ -7,7 +7,12 @@ export default class App extends React.Component {
       <ImageBackground source={require('./images/watch.jpeg')} style={styles.imgBg}>
         <Image style={styles.imgLogo} source={require('./images/whiteLogo.png')} />
       <View style={styles.container}>
-
+        <Text style={styles.txtTitulo}>
+          Monitoramento cardíaco
+        </Text>
+        <Text style={styles.txtDescricao}>
+          Acompanhamento em tempo real
+        </Text>
         <View style={styles.btns}>
           <TouchableOpacity style={styles.btn}>
               <Text style={styles.btnText}>Cadastrar</Text>
@@ -54,5 +59,16 @@ const styles = StyleSheet.create({
     height: 80,
     margin:10,
     alignSelf:'flex-end',
+  },
+  txtTitulo:{
+    color:'#fff',
+    fontSize:45,
+    marginLeft:20,
+  },
+  txtDescricao:{
+    color:'#fff',
+    fontSize:24,
+    marginBottom:50,
+    marginLeft:20,
   },
 });
