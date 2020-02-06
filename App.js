@@ -1,21 +1,17 @@
 import React, { Component } from 'react';
-import { StyleSheet, Button, Alert, Text, View, ImageBackground } from 'react-native';
+import { StyleSheet, TouchableOpacity, Button, Alert, Text, View, ImageBackground } from 'react-native';
 
 export default class App extends React.Component {
   render() {
     return (
       <ImageBackground source={require('./images/watch.jpeg')} style={styles.container}>
       <View style={styles.btns}>
-        <Button 
-          title="Cadastrar"
-          color="#FF5F54"
-          onPress={() => Alert.alert('Funcionando :)')}
-        />
-         <Button
-          title="Entrar"
-          color="#FF5F54"
-          onPress={() => Alert.alert('Funcionando tbm :)')}
-        />
+        <TouchableOpacity style={styles.btn}>
+            <Text style={styles.btnText}>Cadastrar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.btn}>
+            <Text style={styles.btnText}>Entrar</Text>
+        </TouchableOpacity>
         </View>
       </ImageBackground>
     );
@@ -25,11 +21,24 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    alignItems:'center',
     justifyContent:'flex-end',
   },
   btns:{
     flexDirection:'row',
+    alignSelf:'center',
+  },
+  btn:{
+    justifyContent:'center',
+    width:"45%",
+    height: 50,
+    backgroundColor:'#FF5F54',
     margin:10,
+    borderRadius:10,
+  },
+  btnText:{
+    alignSelf:'center',
+    color:'#fff',
+    fontSize:18,
+    fontWeight:'bold',
   },
 });
