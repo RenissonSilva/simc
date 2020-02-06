@@ -1,74 +1,28 @@
 import React, { Component } from 'react';
 import { StyleSheet, Image, TouchableOpacity, Text, View, ImageBackground } from 'react-native';
-
+import 'react-native-gesture-handler';
+import {createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
+import HomeScreen from './screens/HomeScreen';
+import Choice from './screens/Choice';
+import ChoiceRegis from './screens/ChoiceRegis';
 export default class App extends React.Component {
   render() {
     return (
-      <ImageBackground source={require('./images/watch.jpeg')} style={styles.imgBg}>
-        <Image style={styles.imgLogo} source={require('./images/whiteLogo.png')} />
-      <View style={styles.container}>
-        <Text style={styles.txtTitulo}>
-          Monitoramento cardíaco
-        </Text>
-        <Text style={styles.txtDescricao}>
-          Acompanhamento em tempo real
-        </Text>
-        <View style={styles.btns}>
-          <TouchableOpacity style={styles.btn}>
-              <Text style={styles.btnText}>Cadastrar</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.btn}>
-              <Text style={styles.btnText}>Entrar</Text>
-          </TouchableOpacity>
-          </View>
-
-        </View>
-      </ImageBackground>
+      <AppContainer/>      
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    justifyContent:'flex-end',
+const RootStack = createStackNavigator(
+  {
+    Home : HomeScreen,
+    Choice : Choice,
+    ChoiceRegis : ChoiceRegis,
   },
-  imgBg:{
-    flex:1,
-  },
-  btns:{
-    flexDirection:'row',
-    alignSelf:'center',
-  },
-  btn:{
-    justifyContent:'center',
-    width:"45%",
-    height: 50,
-    backgroundColor:'#FF5F54',
-    margin:10,
-    borderRadius:10,
-  },
-  btnText:{
-    alignSelf:'center',
-    color:'#fff',
-    fontSize:18,
-    fontWeight:'bold',
-  },
-  imgLogo:{
-    width: 80,
-    height: 80,
-    margin:10,
-    alignSelf:'flex-end',
-  },
-  txtTitulo:{
-    color:'#fff',
-    fontSize:45,
-    marginLeft:20,
-  },
-  txtDescricao:{
-    color:'#fff',
-    fontSize:24,
-    marginBottom:50,
-    marginLeft:20,
-  },
-});
+  {
+    initialRouteName: 'Home',
+  }
+);
+
+const AppContainer = createAppContainer(RootStack);
