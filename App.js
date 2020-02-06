@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
-import { StyleSheet, TouchableOpacity, Button, Alert, Text, View, ImageBackground } from 'react-native';
+import { StyleSheet, Image, TouchableOpacity, Text, View, ImageBackground } from 'react-native';
 
 export default class App extends React.Component {
   render() {
     return (
-      <ImageBackground source={require('./images/watch.jpeg')} style={styles.container}>
-      <View style={styles.btns}>
-        <TouchableOpacity style={styles.btn}>
-            <Text style={styles.btnText}>Cadastrar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.btn}>
-            <Text style={styles.btnText}>Entrar</Text>
-        </TouchableOpacity>
+      <ImageBackground source={require('./images/watch.jpeg')} style={styles.imgBg}>
+        <Image style={styles.imgLogo} source={require('./images/whiteLogo.png')} />
+      <View style={styles.container}>
+
+        <View style={styles.btns}>
+          <TouchableOpacity style={styles.btn}>
+              <Text style={styles.btnText}>Cadastrar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.btn}>
+              <Text style={styles.btnText}>Entrar</Text>
+          </TouchableOpacity>
+          </View>
+
         </View>
       </ImageBackground>
     );
@@ -22,6 +27,9 @@ const styles = StyleSheet.create({
   container:{
     flex:1,
     justifyContent:'flex-end',
+  },
+  imgBg:{
+    flex:1,
   },
   btns:{
     flexDirection:'row',
@@ -40,5 +48,11 @@ const styles = StyleSheet.create({
     color:'#fff',
     fontSize:18,
     fontWeight:'bold',
+  },
+  imgLogo:{
+    width: 80,
+    height: 80,
+    margin:10,
+    alignSelf:'flex-end',
   },
 });
