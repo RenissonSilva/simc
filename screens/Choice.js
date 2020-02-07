@@ -6,11 +6,6 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.topMenu}>
-          <Icon name="arrow-left" size={40} color="#fff" style={styles.iconeSeta}/>
-          <Text style={styles.textMenu}>Login</Text>
-          <Image style={styles.imgLogo} source={require('../images/whiteLogo.png')} />
-        </View> 
         <Text style={styles.textExplica}>Selecione seu perfil</Text>
         <TouchableOpacity style={styles.btn}>       
           <Icon name="user" size={70} color="#fff" style={styles.icon}/>
@@ -85,3 +80,8 @@ const styles = StyleSheet.create({
     marginLeft:'5%',
   }
 });
+        // <View style={styles.topMenu}>
+        //   <Icon name="arrow-left" size={40} color="#fff" style={styles.iconeSeta}/>
+        //   <Text style={styles.textMenu}>Login</Text>
+        //   <Image style={styles.imgLogo} source={require('../images/whiteLogo.png')} />
+        // </View> 
