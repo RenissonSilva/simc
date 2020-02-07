@@ -6,6 +6,7 @@ import {createStackNavigator} from 'react-navigation-stack';
 import HomeScreen from './screens/HomeScreen';
 import Choice from './screens/Choice';
 import ChoiceRegis from './screens/ChoiceRegis';
+import PatientLogin from './screens/PatientLogin';
 export default class App extends React.Component {
   render() {
     return (
@@ -19,6 +20,7 @@ const RootStack = createStackNavigator(
     Home : HomeScreen,
     Choice : Choice,
     ChoiceRegis : ChoiceRegis,
+    PatientLogin : PatientLogin,
   },
   {
     initialRouteName: 'Home',
