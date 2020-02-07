@@ -5,7 +5,8 @@ import { StyleSheet, Text, View, TextInput,SubmitButton, TouchableOpacity } from
 export default class PatientLogin extends Component {
   constructor(props) {
     super(props);
-    this.state = {text: ''};
+    this.state = {email: ''};
+    this.state = {senha: ''};
   }
 
   render() {
@@ -15,19 +16,20 @@ export default class PatientLogin extends Component {
           <Text style={styles.textInput}>Email</Text>
           <TextInput
             style={styles.input}
-            onChangeText={(text) => this.setState({text})}
-            value={this.state.text}
+            onChangeText={(email) => this.setState({email})}
+            value={this.state.email}
           />
           <Text style={styles.textInput}>Senha</Text>
           <TextInput
+            secureTextEntry={true}
             style={styles.input}
-            onChangeText={(text) => this.setState({text})}
-            value={this.state.text}
+            onChangeText={(senha) => this.setState({senha})}
+            value={this.state.senha}
           />
           <TouchableOpacity
                style = {styles.submitButton}
                onPress = {
-                  () => this.login(this.state.email, this.state.password)
+                  () => this.login(this.state.email, this.state.senha)
                }>
                <Text style = {styles.submitText}> Confirmar </Text>
             </TouchableOpacity>
