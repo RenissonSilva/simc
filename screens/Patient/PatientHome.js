@@ -39,17 +39,16 @@ export default class PatientHome extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
-        <TouchableOpacity style={styles.btn} onPress = {() => { this.props.navigation.navigate('PatientLogin')}}
-            >       
-          <Text style={styles.btnText}>Batimento cardíaco</Text>
-          <View style={styles.teste}>
-            <Text style={styles.btnBpm}>81</Text>
-            <Text style={styles.btnB}>bpm</Text>
-          </View>
-          <Icon name="heartbeat" size={70} color="#FF5F54" style={styles.icon}/>
-          <Animatable.Text animation="pulse" iterationCount={'infinite'} direction="alternate" style={styles.icon}><Icon name="heartbeat" size={70} color="#FF5F54" style={styles.icon}/></Animatable.Text>
-        </TouchableOpacity>
+        <View style={styles.container}>
+            <TouchableOpacity style={styles.btn}>       
+              <Text style={styles.btnText}>Batimento cardíaco</Text>
+              <View style={styles.teste}>
+                <Text style={styles.btnBpm}>81</Text>
+                <Text style={styles.btnB}>bpm</Text>
+              </View>
+              <Icon name="heartbeat" size={70} color="#FF5F54" style={styles.icon}/>
+              <Animatable.Text animation='pulse' iterationCount={'infinite'} direction="alternate" style={styles.icon}><Icon name="heartbeat" size={70} color="#FF5F54" style={styles.icon}/></Animatable.Text>
+            </TouchableOpacity>
          <Text style={styles.monitora}>Monitoramento dos últimos 30 minutos</Text>
       </View>
         );
