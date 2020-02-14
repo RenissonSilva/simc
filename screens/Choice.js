@@ -3,6 +3,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { StyleSheet, Image, TouchableOpacity, Text, View, ImageBackground } from 'react-native';
 
 export default class App extends React.Component {
+  static navigationOptions = {
+      headerTitle:'Entrar',
+      headerStyle: { backgroundColor: '#FF5F54' },
+      headerTintColor: 'white',
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -23,7 +28,7 @@ export default class App extends React.Component {
         <TouchableOpacity style={styles.btn} onPress = {() => { this.props.navigation.navigate('DoctorLogin')}}
             >
         <Icon name="user-md" size={70} color="#fff" style={styles.icon}/>
-          <Text style={styles.btnText}>Doutor</Text>
+          <Text style={styles.btnText}>Médico</Text>
         </TouchableOpacity>
       </View>
     );

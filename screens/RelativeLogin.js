@@ -5,6 +5,12 @@ import axios from 'axios';
 import querystring from 'query-string';
 
 export default class PatientLogin extends Component {
+  static navigationOptions = {
+      headerTitle:'Entrar como familiar',
+      headerStyle: { backgroundColor: '#FF5F54' },
+      headerTintColor: 'white',
+  }
+
   constructor(props) {
     super(props);
     this.state = {email: ''};

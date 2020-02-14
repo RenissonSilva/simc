@@ -6,6 +6,11 @@ import axios from 'axios';
 import querystring from 'query-string';
  
 export default class PatientHome extends React.Component {
+  static navigationOptions = {
+      headerTitle:'Paciente',
+      headerStyle: { backgroundColor: '#FF5F54' },
+      headerTintColor: 'white',
+  }
 
     constructor(props){
         super(props)
@@ -86,7 +91,7 @@ const styles = StyleSheet.create({
   },
   icon:{
     alignSelf:'center',
-    marginRight:'5%',
+    marginRight:'15%',
     alignSelf:'flex-end',
     position:'absolute',
   },
