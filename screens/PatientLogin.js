@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { StyleSheet, Text, View, TextInput,SubmitButton, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput,SubmitButton, TouchableOpacity,Button } from 'react-native';
 import axios from 'axios';
 import querystring from 'query-string';
 
@@ -11,6 +11,7 @@ static navigationOptions = {
       headerStyle: { backgroundColor: '#FF5F54' },
       headerTintColor: 'white',
   }
+      // <Image style={styles.imgLogo} source={require('../images/whiteLogo.png')} />
   
   constructor(props) {
     super(props);
@@ -45,7 +46,7 @@ static navigationOptions = {
   render() {
     return (
       <View style={styles.container}>
-
+        
           <Text style={styles.textInput}>Email</Text>
           <TextInput
             style={styles.input}
@@ -72,7 +73,7 @@ static navigationOptions = {
 const styles = StyleSheet.create({
   container:{
     flex:1,
-    
+
   },
   textInput:{
     color:'#FF5F54',

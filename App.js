@@ -5,12 +5,13 @@ import {createAppContainer} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 import HomeScreen from './screens/HomeScreen';
 import Choice from './screens/Choice';
-import ChoiceRegis from './screens/ChoiceRegis';
 import PatientLogin from './screens/PatientLogin';
 import RelativeLogin from './screens/RelativeLogin';
 import DoctorLogin from './screens/DoctorLogin';
 import PatientHome from './screens/Patient/PatientHome';
 import RelativeHome from './screens/Relative/RelativeHome';
+import ChoiceRegis from './screens/Register/ChoiceRegis';
+import PatientRegister from './screens/Register/PatientRegister1';
 export default class App extends React.Component {
   render() {
     return (
@@ -23,12 +24,13 @@ const RootStack = createStackNavigator(
   {
     Home : HomeScreen,
     Choice : Choice,
-    ChoiceRegis : ChoiceRegis,
     PatientLogin : PatientLogin,
     RelativeLogin : RelativeLogin,  
     DoctorLogin : DoctorLogin,
     PatientHome : PatientHome,
-    RelativeHome: RelativeHome
+    RelativeHome: RelativeHome,
+    ChoiceRegis : ChoiceRegis,
+    PatientRegister : PatientRegister,
   },
   {
     initialRouteName: 'Home',

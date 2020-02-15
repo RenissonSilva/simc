@@ -4,7 +4,7 @@ import { StyleSheet, Image, TouchableOpacity, Text, View, ImageBackground } from
 
 export default class App extends React.Component {
   static navigationOptions = {
-      headerTitle:'Entrar',
+      headerTitle:'Cadastrar',
       headerStyle: { backgroundColor: '#FF5F54' },
       headerTintColor: 'white',
   }
@@ -12,7 +12,7 @@ export default class App extends React.Component {
     return (
       <View style={styles.container}>
         <Text style={styles.textExplica}>Selecione seu perfil</Text>
-        <TouchableOpacity style={styles.btn} onPress = {() => { this.props.navigation.navigate('PatientLogin')}}
+        <TouchableOpacity style={styles.btn} onPress = {() => { this.props.navigation.navigate('PatientRegister')}}
             >       
           <Icon name="user" size={70} color="#fff" style={styles.icon}/>
           <Text style={styles.btnText}>
