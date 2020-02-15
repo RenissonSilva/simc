@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { StyleSheet, Text, View, TextInput,SubmitButton, TouchableOpacity,ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity,ScrollView } from 'react-native';
 import axios from 'axios';
 import querystring from 'query-string';
 
 export default class PatientLogin extends Component {
 
 static navigationOptions = {
-      headerTitle:'Entrar como paciente',
+      headerTitle:'Dados pessoais',
       headerStyle: { backgroundColor: '#FF5F54' },
       headerTintColor: 'white',
   }
@@ -28,6 +28,7 @@ static navigationOptions = {
   render() {
     return (
         <ScrollView style={styles.scrollView}>
+
           <Text style={styles.textInput}>Nome</Text>
           <TextInput
             style={styles.input}
@@ -78,9 +79,8 @@ static navigationOptions = {
             onChangeText={(confirmSenha) => this.setState({confirmSenha})}
             value={this.state.confirmSenha}
           />
-          <TouchableOpacity
-               style = {styles.submitButton}
-               onPress = {() => { this.props.navigation.navigate('PatientRegister2')}>
+          <TouchableOpacity style={styles.submitButton} onPress = {() => { this.props.navigation.navigate('PatientRegister2')}}
+            >
                <Text style = {styles.submitText}> Continuar </Text>
           </TouchableOpacity>
         </ScrollView>

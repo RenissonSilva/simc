@@ -12,6 +12,7 @@ import PatientHome from './screens/Patient/PatientHome';
 import RelativeHome from './screens/Relative/RelativeHome';
 import ChoiceRegis from './screens/Register/ChoiceRegis';
 import PatientRegister from './screens/Register/PatientRegister1';
+import PatientRegister2 from './screens/Register/PatientRegister2';
 export default class App extends React.Component {
   render() {
     return (
@@ -31,6 +32,7 @@ const RootStack = createStackNavigator(
     RelativeHome: RelativeHome,
     ChoiceRegis : ChoiceRegis,
     PatientRegister : PatientRegister,
+    PatientRegister2 : PatientRegister2,
   },
   {
     initialRouteName: 'Home',
