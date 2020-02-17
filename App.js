@@ -15,6 +15,7 @@ import PatientRegister from './screens/Register/PatientRegister1';
 import PatientRegister2 from './screens/Register/PatientRegister2';
 import RelativeRegister from './screens/Register/RelativeRegister1';
 import RelativeRegister2 from './screens/Register/RelativeRegister2';
+import DoctorRegister from './screens/Register/DoctorRegister';
 export default class App extends React.Component {
   render() {
     return (
@@ -37,6 +38,7 @@ const RootStack = createStackNavigator(
     PatientRegister2 : PatientRegister2,
     RelativeRegister : RelativeRegister,
     RelativeRegister2 : RelativeRegister2,
+    DoctorRegister : DoctorRegister,
   },
   {
     initialRouteName: 'Home',

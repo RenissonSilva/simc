@@ -25,7 +25,7 @@ export default class App extends React.Component {
           <Text style={styles.btnText}>Familiar</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.btn} onPress = {() => { this.props.navigation.navigate('DoctorLogin')}}
+        <TouchableOpacity style={styles.btn} onPress = {() => { this.props.navigation.navigate('DoctorRegister')}}
             >
         <Icon name="user-md" size={70} color="#fff" style={styles.icon}/>
           <Text style={styles.btnText}>Médico</Text>
