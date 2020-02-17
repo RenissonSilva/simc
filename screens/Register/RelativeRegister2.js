@@ -39,11 +39,11 @@ static navigationOptions = {
             onChangeText={(rua) => this.setState({rua})}
             value={this.state.rua}
           />
-          <Text style={styles.textInput}>Cidade</Text>
+          <Text style={styles.textInput}>País</Text>
           <TextInput
             style={styles.input}
-            onChangeText={(cidade) => this.setState({cidade})}
-            value={this.state.cidade}
+            onChangeText={(pais) => this.setState({pais})}
+            value={this.state.pais}
           />
           <Text style={styles.textInput}>Estado</Text>
           <TextInput
@@ -51,11 +51,11 @@ static navigationOptions = {
             onChangeText={(estado) => this.setState({estado})}
             value={this.state.estado}
           />
-          <Text style={styles.textInput}>País</Text>
+          <Text style={styles.textInput}>Cidade</Text>
           <TextInput
             style={styles.input}
-            onChangeText={(pais) => this.setState({pais})}
-            value={this.state.pais}
+            onChangeText={(cidade) => this.setState({cidade})}
+            value={this.state.cidade}
           />
           <Text style={styles.textInput}>Número</Text>
           <TextInput
