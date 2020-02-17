@@ -19,7 +19,7 @@ export default class App extends React.Component {
           Paciente</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.btn} onPress = {() => { this.props.navigation.navigate('RelativeLogin')}}
+        <TouchableOpacity style={styles.btn} onPress = {() => { this.props.navigation.navigate('RelativeRegister')}}
             >
         <Icon name="users" size={70} color="#fff" style={styles.icon}/>
           <Text style={styles.btnText}>Familiar</Text>
