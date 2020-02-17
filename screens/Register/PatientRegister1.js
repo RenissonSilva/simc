@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity,ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity,ScrollView, Picker } from 'react-native';
 import axios from 'axios';
 import querystring from 'query-string';
 
@@ -28,6 +28,7 @@ static navigationOptions = {
   render() {
     return (
         <ScrollView style={styles.scrollView}>
+        
 
           <Text style={styles.textInput}>Nome</Text>
           <TextInput
@@ -35,36 +36,47 @@ static navigationOptions = {
             onChangeText={(nome) => this.setState({nome})}
             value={this.state.nome}
           />
+
           <Text style={styles.textInput}>Idade</Text>
           <TextInput
             style={styles.input}
             onChangeText={(idade) => this.setState({idade})}
             value={this.state.idade}
           />
+
           <Text style={styles.textInput}>Sexo</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={(sexo) => this.setState({sexo})}
-            value={this.state.sexo}
-          />
+          <Picker
+            selectedValue={this.state.sexo}
+            style={styles.picker}
+            onValueChange={(itemValue, itemIndex) =>
+              this.setState({sexo: itemValue})
+            }>
+            <Picker.Item label="Escolha uma opção" value="" />
+            <Picker.Item label="Masculino" value="M" />
+            <Picker.Item label="Feminino" value="F" />
+          </Picker>
+
           <Text style={styles.textInput}>Telefone</Text>
           <TextInput
             style={styles.input}
             onChangeText={(telefone) => this.setState({telefone})}
             value={this.state.telefone}
           />
+
           <Text style={styles.textInput}>Email</Text>
           <TextInput
             style={styles.input}
             onChangeText={(email) => this.setState({email})}
             value={this.state.email}
           />
+
           <Text style={styles.textInput}>Ocupação</Text>
           <TextInput
             style={styles.input}
             onChangeText={(ocupacao) => this.setState({ocupacao})}
             value={this.state.ocupacao}
           />
+
           <Text style={styles.textInput}>Senha</Text>
           <TextInput
             secureTextEntry={true}
@@ -72,6 +84,7 @@ static navigationOptions = {
             onChangeText={(senha) => this.setState({senha})}
             value={this.state.senha}
           />
+
           <Text style={styles.textInput}>Confirmação de senha</Text>
           <TextInput
             secureTextEntry={true}
@@ -79,6 +92,7 @@ static navigationOptions = {
             onChangeText={(confirmSenha) => this.setState({confirmSenha})}
             value={this.state.confirmSenha}
           />
+
           <TouchableOpacity style={styles.submitButton} onPress = {() => { this.props.navigation.navigate('PatientRegister2')}}
             >
                <Text style = {styles.submitText}> Continuar </Text>
@@ -122,5 +136,10 @@ const styles = StyleSheet.create({
     color:"#fff",
     fontSize:18,
     alignSelf:"center",
+  },
+  picker:{
+    color:'#FF5F54',
+    marginLeft:50,
+    marginRight:50,
   },
 });
