@@ -4,31 +4,32 @@ import { StyleSheet, Image, TouchableOpacity, Text, View, ImageBackground } from
 
 export default class App extends React.Component {
   static navigationOptions = {
-      headerTitle:'Paciente',
+      headerTitle:'Entrar',
       headerStyle: { backgroundColor: '#FF5F54' },
       headerTintColor: 'white',
   }
   render() {
     return (
       <View style={styles.container}>
+        <Text style={styles.textExplica}>Selecione seu perfil</Text>
+        <TouchableOpacity style={styles.btn} onPress = {() => { this.props.navigation.navigate('PatientLogin')}}
+            >       
+          <Icon name="user" size={70} color="#fff" style={styles.icon}/>
+          <Text style={styles.btnText}>
+          Paciente</Text>
+        </TouchableOpacity>
 
-        <Image style={styles.imgProfile} source={require('../images/profilePatient.jpg')} />
-        <Text style={styles.nome}>Renato Silva</Text>
-        <Text style={styles.ano}>1996</Text>
+        <TouchableOpacity style={styles.btn} onPress = {() => { this.props.navigation.navigate('RelativeLogin')}}
+            >
+        <Icon name="users" size={70} color="#fff" style={styles.icon}/>
+          <Text style={styles.btnText}>Familiar</Text>
+        </TouchableOpacity>
 
-        <Text style={styles.info}><Image style={styles.imgIcon} source={require('../images/info.png')} />Informações pessoais</Text>
-        <Text style={styles.dado}>Telefone : 988445577</Text>
-        <Text style={styles.dado}>Sexo : Masculino</Text>
-        <Text style={styles.dado}>E-mail: renatosilva@gmail.com</Text>
-        <Text style={styles.dado}>Ocupação: Engenheiro</Text>
-
-        
-        <Text style={styles.info}><Image style={styles.imgIcon} source={require('../images/address.png')} />Endereço</Text>
-        <Text style={styles.dado}>Av. Fagundes Varela, 100</Text>
-        <Text style={styles.dado}>Cidade: Olinda </Text>
-        <Text style={styles.dado}>Estado: Pernambuco</Text>
-        <Text style={styles.dado}>CEP: 21652-100</Text>
-      
+        <TouchableOpacity style={styles.btn} onPress = {() => { this.props.navigation.navigate('DoctorLogin')}}
+            >
+        <Icon name="user-md" size={70} color="#fff" style={styles.icon}/>
+          <Text style={styles.btnText}>Médico</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -38,39 +39,52 @@ const styles = StyleSheet.create({
   container:{
     flex:1,
   },
-  imgProfile:{
-    borderRadius:80,
-    width:160,
-    height:160,
-    alignSelf:'center',
-    marginTop:20,
+  topMenu:{
+    backgroundColor:'#FF5F54',
+    height:70,
+    flexDirection:'row',
   },
-  nome:{
-    fontSize:30,
+  textMenu:{
+    flex:2,
+    color:'#fff',
+    fontSize:24,
+    alignSelf:'center',
+  },
+  textExplica:{
     color:'#FF5F54',
+    fontSize:26,
     alignSelf:'center',
-    fontWeight:'bold',
+    marginTop:30,
+    marginBottom:30,
   },
-  ano:{
-    fontSize:28,
-    color:'#FF5F54',
-    alignSelf:'center',
-  },
-  info:{
-    marginTop:10,
-    paddingBottom:10,
-    fontSize:22,
-    color:'#FF5F54',
-    alignSelf:'center',
-    fontWeight:'bold',
-  },
-  dado:{
-    fontSize:20,
-    color:'#FF5F54',
+  btn:{
+    flexDirection: 'row',
+    justifyContent:'center',
+    width:"75%",
+    height: 110,
+    backgroundColor:'#FF5F54',
+    margin:15,
+    borderRadius:10,
     alignSelf:'center',
   },
-  imgIcon:{
-    width:30,
-    height:30,
+  btnText:{
+    alignSelf:'center',
+    color:'#fff',
+    fontSize:26,
   },
+  imgLogo:{
+    width: 90,
+    height: 90,
+    margin:10,
+    alignSelf:'center',
+  },
+  icon:{
+    alignSelf:'center',
+    marginRight:'5%',
+  },
+  iconeSeta:{
+    alignSelf:'center',
+    marginRight:'10%',
+    marginLeft:'5%',
+  }
 });
