@@ -18,7 +18,9 @@ export default class App extends React.Component {
 
             <View style={styles.boxFamiliar}>
               <Image style={styles.imgProfile} source={require('../images/profileRelative.jpg')} />
-              <Text style={styles.msg}>Júlia é sua irmã ?</Text>
+              <View style={styles.boxFamiliarText}>
+                <Text style={styles.msg}>Júlia é sua irmã ?</Text>
+              </View>
             </View>
       </View>
 
@@ -49,6 +51,8 @@ const styles = StyleSheet.create({
     alignSelf:'center',
     marginTop:50,
     marginBottom:10,
+    width:60,
+    height:60,
   },
   boxFamiliar:{
     backgroundColor:'#FF5F54',
@@ -56,7 +60,11 @@ const styles = StyleSheet.create({
     height:100,
     borderRadius:20,
     alignSelf:'center',
-    justifyContent:'space-between',
+    flexDirection:'row',
+  },
+  boxFamiliarText:{
+    marginLeft:10,
+    width:'60%',
   },
   imgProfile:{
     borderRadius:40,
@@ -64,10 +72,13 @@ const styles = StyleSheet.create({
     borderWidth:2,
     marginLeft:20,
     marginTop:10,
+    width:80,
+    height:80,
   },
   msg:{
+    marginTop:10,
     fontSize:19,
-    color:'#FF5F54',
+    color:'white',
     fontWeight:'bold',
     alignSelf:'center',
   },
