@@ -4,33 +4,24 @@ import { StyleSheet, Image, TouchableOpacity, Text, View, ImageBackground } from
 
 export default class App extends React.Component {
   static navigationOptions = {
-      headerTitle:'Entrar',
+      headerTitle:'Paciente - Renato',
       headerStyle: { backgroundColor: '#FF5F54' },
       headerTintColor: 'white',
   }
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.textExplica}>Selecione seu perfil</Text>
-        <TouchableOpacity style={styles.btn} onPress = {() => { this.props.navigation.navigate('PatientLogin')}}
-            >       
-          <Icon name="user" size={70} color="#fff" style={styles.icon}/>
-          <Text style={styles.btnText}>
-          Paciente</Text>
-        </TouchableOpacity>
+            <Text style={styles.title}>Familiares cadastrados</Text>
+            <Image style={styles.sadIcon} source={require('../images/sad.png')} />
+            <Text style={styles.msgEmpty}>No momento não há</Text>
+            <Text style={styles.title}>Convites</Text>
 
-        <TouchableOpacity style={styles.btn} onPress = {() => { this.props.navigation.navigate('RelativeLogin')}}
-            >
-        <Icon name="users" size={70} color="#fff" style={styles.icon}/>
-          <Text style={styles.btnText}>Familiar</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.btn} onPress = {() => { this.props.navigation.navigate('DoctorLogin')}}
-            >
-        <Icon name="user-md" size={70} color="#fff" style={styles.icon}/>
-          <Text style={styles.btnText}>Médico</Text>
-        </TouchableOpacity>
+            <View style={styles.boxFamiliar}>
+              <Image style={styles.imgProfile} source={require('../images/profileRelative.jpg')} />
+              <Text style={styles.msg}>Júlia é sua irmã ?</Text>
+            </View>
       </View>
+
     );
   }
 }
@@ -39,52 +30,45 @@ const styles = StyleSheet.create({
   container:{
     flex:1,
   },
-  topMenu:{
-    backgroundColor:'#FF5F54',
-    height:70,
-    flexDirection:'row',
-  },
-  textMenu:{
-    flex:2,
-    color:'#fff',
-    fontSize:24,
-    alignSelf:'center',
-  },
-  textExplica:{
+  title:{
+    marginTop:20,
+    marginLeft:40,
+    paddingBottom:10,
+    fontSize:22,
     color:'#FF5F54',
-    fontSize:26,
-    alignSelf:'center',
-    marginTop:30,
-    marginBottom:30,
+    fontWeight:'bold',
   },
-  btn:{
-    flexDirection: 'row',
-    justifyContent:'center',
-    width:"75%",
-    height: 110,
+  msgEmpty:{
+    marginBottom:50,
+    fontSize:19,
+    color:'#FF5F54',
+    fontWeight:'bold',
+    alignSelf:'center',
+  },
+  sadIcon:{
+    alignSelf:'center',
+    marginTop:50,
+    marginBottom:10,
+  },
+  boxFamiliar:{
     backgroundColor:'#FF5F54',
-    margin:15,
-    borderRadius:10,
+    width:'80%',
+    height:100,
+    borderRadius:20,
+    alignSelf:'center',
+    justifyContent:'space-between',
+  },
+  imgProfile:{
+    borderRadius:40,
+    borderColor:'white',
+    borderWidth:2,
+    marginLeft:20,
+    marginTop:10,
+  },
+  msg:{
+    fontSize:19,
+    color:'#FF5F54',
+    fontWeight:'bold',
     alignSelf:'center',
   },
-  btnText:{
-    alignSelf:'center',
-    color:'#fff',
-    fontSize:26,
-  },
-  imgLogo:{
-    width: 90,
-    height: 90,
-    margin:10,
-    alignSelf:'center',
-  },
-  icon:{
-    alignSelf:'center',
-    marginRight:'5%',
-  },
-  iconeSeta:{
-    alignSelf:'center',
-    marginRight:'10%',
-    marginLeft:'5%',
-  }
 });
