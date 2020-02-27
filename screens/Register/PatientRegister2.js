@@ -3,6 +3,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity,ScrollView } from 'react-native';
 import axios from 'axios';
 import querystring from 'query-string';
+import moment from 'moment';
 
 export default class PatientLogin extends Component {
 
@@ -23,6 +24,14 @@ static navigationOptions = {
     this.state = {numero: ''};
     this.state = {complemento: ''};
   }
+  componentDidMount(){
+    //const { params } = this.props.navigation.state;
+    //console.log(params.idade);
+    moment.locale('pt-BR');
+    //console.log(moment(params.idade).isValid());
+    //console.log(moment(params.idade,['DD-MM-YYYY','YYYY-MM-DD']).utc().format('YYYY-MM-DD'));
+  
+  }
 
   render() {
     return (
@@ -30,8 +39,12 @@ static navigationOptions = {
           <Text style={styles.textInput}>CEP</Text>
           <TextInput
             style={styles.input}
-            onChangeText={(cep) => this.setState({cep})}
+            onChangeText={(cep) => {
+              this.setState({cep})
+            }}
             value={this.state.cep}
+            onBlur= {this.procurar_cep}
+            maxLength = {8}
           />
           <Text style={styles.textInput}>Rua</Text>
           <TextInput
@@ -73,7 +86,7 @@ static navigationOptions = {
 
           <TouchableOpacity
                style = {styles.submitButton}
-               onPress = {this.signIn}>
+               onPress = {this.Register}>
                <Text style = {styles.submitText}> Confirmar </Text>
             </TouchableOpacity>
           
@@ -81,6 +94,57 @@ static navigationOptions = {
 
     );
   }
+
+  procurar_cep = () => {
+    if(this.state.cep){
+      axios.get('https://viacep.com.br/ws/'+this.state.cep+'/json')
+      .then( response => {
+        //console.log(response.data)
+        if(!response.data.error){
+          this.setState({rua: response.data.logradouro})
+          this.setState({cidade: response.data.localidade})
+          this.setState({estado: response.data.uf})
+        }
+       
+      })
+      .catch( error => {
+        console.log(error)
+      })
+    }
+  }
+
+  Register = () => {
+    const { params } = this.props.navigation.state;
+    //console.log(params);
+    //console.log(this.state)
+    if(params){
+      axios.post('https://apisimc.herokuapp.com/api/patient/register?', querystring.stringify({
+        name: params.nome,
+        sex: params.sexo,
+        telephone: params.telefone,
+        occupation: params.ocupacao,
+        address: this.state.rua,
+        city: this.state.cidade,
+        country: this.state.estado,
+        state_province: this.state.pais,
+        zip: this.state.cep,
+        password: params.senha,
+        birthday: moment(params.idade,['DD-MM-YYYY','YYYY-MM-DD']).utc().format('YYYY-MM-DD'),
+        email: params.email
+      }))
+      .then(response => {
+        //console.log(response.data)
+        if(response.data.access_token){
+          this.props.navigation.navigate('PatientLogin', {token: item} )
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    }
+  }
+
+
 }
 
 const styles = StyleSheet.create({

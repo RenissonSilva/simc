@@ -3,6 +3,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity,ScrollView, Picker } from 'react-native';
 import axios from 'axios';
 import querystring from 'query-string';
+import validate from 'validate.js';
+import { TextInputMask } from 'react-native-masked-text'
+import moment from 'moment';
 
 export default class PatientLogin extends Component {
 
@@ -23,6 +26,7 @@ static navigationOptions = {
     this.state = {ocupacao: ''};
     this.state = {senha: ''};
     this.state = {confirmSenha: ''};
+    this.state = {nameerror: ''};
   }
 
   render() {
@@ -35,10 +39,16 @@ static navigationOptions = {
             style={styles.input}
             onChangeText={(nome) => this.setState({nome})}
             value={this.state.nome}
+            onEndEditing = {this.validar}
           />
+          <Text>{this.state.nameerror}</Text>
 
           <Text style={styles.textInput}>Idade</Text>
-          <TextInput
+          <TextInputMask
+            type={'datetime'}
+            options={{
+              format: 'DD/MM/YYYY'
+            }}
             style={styles.input}
             onChangeText={(idade) => this.setState({idade})}
             value={this.state.idade}
@@ -52,8 +62,9 @@ static navigationOptions = {
               this.setState({sexo: itemValue})
             }>
             <Picker.Item label="Escolha uma opção" value="" />
-            <Picker.Item label="Masculino" value="M" />
-            <Picker.Item label="Feminino" value="F" />
+            <Picker.Item label="Masculino" value="Male" />
+            <Picker.Item label="Feminino" value="Female" />
+            <Picker.Item label="Outros" value="Another" />
           </Picker>
 
           <Text style={styles.textInput}>Telefone</Text>
@@ -93,7 +104,7 @@ static navigationOptions = {
             value={this.state.confirmSenha}
           />
 
-          <TouchableOpacity style={styles.submitButton} onPress = {() => { this.props.navigation.navigate('PatientRegister2')}}
+          <TouchableOpacity style={styles.submitButton} onPress = {this.continue_register}
             >
                <Text style = {styles.submitText}> Continuar </Text>
           </TouchableOpacity>
@@ -101,8 +112,32 @@ static navigationOptions = {
 
     );
   }
-}
 
+  continue_register = () => {
+    //console.log(this.state)
+    console.log(validate({nome: this.state.nome}, validation) )
+    if(moment(this.state.idade).isValid() ){
+      this.props.navigation.navigate('PatientRegister2',this.state);
+    }
+  }
+
+}
+const validation = {
+  nome: {
+    presence: true,
+    length: {
+      minimum: 3,
+      message: "must be at least 3 characters"
+    }
+  },
+  senha:{
+    presence: true,
+    length: {
+      minimum: 6,
+      message: "must be at least 6 characters"
+    }
+  }
+}
 const styles = StyleSheet.create({
   container:{
     flex:1,
