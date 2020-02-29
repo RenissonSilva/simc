@@ -4,8 +4,9 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity,ScrollView } from '
 import axios from 'axios';
 import querystring from 'query-string';
 import moment from 'moment';
+import { TextInputMask } from 'react-native-masked-text';
 
-export default class PatientLogin extends Component {
+export default class PatientRegister2 extends Component {
 
 static navigationOptions = {
       headerTitle:'Endereço',
@@ -16,13 +17,14 @@ static navigationOptions = {
   
   constructor(props) {
     super(props);
-    this.state = {cep: ''};
+    this.state = {cep: '', cepunmasked: ''};
     this.state = {rua: ''};
     this.state = {cidade: ''};
     this.state = {estado: ''};
     this.state = {pais: ''};
     this.state = {numero: ''};
     this.state = {complemento: ''};
+
   }
   componentDidMount(){
     //const { params } = this.props.navigation.state;
@@ -37,14 +39,16 @@ static navigationOptions = {
     return (
         <ScrollView style={styles.scrollView}>
           <Text style={styles.textInput}>CEP</Text>
-          <TextInput
+          <TextInputMask
+            type={'zip-code'}
             style={styles.input}
             onChangeText={(cep) => {
               this.setState({cep})
             }}
             value={this.state.cep}
             onBlur= {this.procurar_cep}
-            maxLength = {8}
+            maxLength = {9}
+            ref={(ref) => {this.cepField = ref}}
           />
           <Text style={styles.textInput}>Rua</Text>
           <TextInput
@@ -75,13 +79,6 @@ static navigationOptions = {
             style={styles.input}
             onChangeText={(numero) => this.setState({numero})}
             value={this.state.numero}
-          />
-          <Text style={styles.textInput}>Complemento</Text>
-          <TextInput
-            secureTextEntry={true}
-            style={styles.input}
-            onChangeText={(complemento) => this.setState({complemento})}
-            value={this.state.complemento}
           />
 
           <TouchableOpacity
@@ -116,31 +113,40 @@ static navigationOptions = {
   Register = () => {
     const { params } = this.props.navigation.state;
     //console.log(params);
-    //console.log(this.state)
-    if(params){
-      axios.post('https://apisimc.herokuapp.com/api/patient/register?', querystring.stringify({
-        name: params.nome,
-        sex: params.sexo,
-        telephone: params.telefone,
-        occupation: params.ocupacao,
-        address: this.state.rua,
-        city: this.state.cidade,
-        country: this.state.estado,
-        state_province: this.state.pais,
-        zip: this.state.cep,
-        password: params.senha,
-        birthday: moment(params.idade,['DD-MM-YYYY','YYYY-MM-DD']).utc().format('YYYY-MM-DD'),
-        email: params.email
-      }))
-      .then(response => {
-        //console.log(response.data)
-        if(response.data.access_token){
-          this.props.navigation.navigate('PatientLogin', {token: item} )
-        }
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    console.log(this.state)
+    let cep = this.cepField.getRawValue()
+    console.log(cep);
+    this.setState({cepunmasked: cep});
+    console.log( moment(params.idade,['DD-MM-YYYY','YYYY-MM-DD']).utc().format('YYYY-MM-DD'));
+    //console.log(this.state.cepunmasked);
+    
+    if(this.state.cepunmasked){
+      if(params){
+          axios.post('https://apisimc.herokuapp.com/api/patient/register?', querystring.stringify({
+          name: params.nome,
+          sex: params.sexo,
+          telephone: params.telefoneunmasked,
+          occupation: params.ocupacao,
+          address: this.state.rua,
+          city: this.state.cidade,
+          country: this.state.estado,
+          state_province: this.state.pais,
+          zip: this.state.cepunmasked,
+          password: params.senha,
+          birthday: moment(params.idade,['DD-MM-YYYY','YYYY-MM-DD']).utc().format('YYYY-MM-DD'),
+          email: params.email
+        }))
+        .then(response => {
+          console.log(response.data)
+          console.log(response.data.access_token)
+          if(response.data.access_token){
+            this.props.navigation.navigate('PatientLogin')
+          }
+        })
+        .catch(error => {
+          console.log(error.response)
+        })
+      }
     }
   }
 

@@ -4,10 +4,10 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity,ScrollView, Picker 
 import axios from 'axios';
 import querystring from 'query-string';
 import validate from 'validate.js';
-import { TextInputMask } from 'react-native-masked-text'
+import { TextInputMask } from 'react-native-masked-text';
 import moment from 'moment';
 
-export default class PatientLogin extends Component {
+export default class PatientRegister1 extends Component {
 
 static navigationOptions = {
       headerTitle:'Dados pessoais',
@@ -27,6 +27,10 @@ static navigationOptions = {
     this.state = {senha: ''};
     this.state = {confirmSenha: ''};
     this.state = {nameerror: ''};
+    this.state = {telefoneunmasked: ''}
+  }
+  componentDidMount(){
+    moment.locale('pt-BR');
   }
 
   render() {
@@ -52,6 +56,7 @@ static navigationOptions = {
             style={styles.input}
             onChangeText={(idade) => this.setState({idade})}
             value={this.state.idade}
+            
           />
 
           <Text style={styles.textInput}>Sexo</Text>
@@ -68,10 +73,19 @@ static navigationOptions = {
           </Picker>
 
           <Text style={styles.textInput}>Telefone</Text>
-          <TextInput
+          <TextInputMask
+            type={'cel-phone'}
+            options={{
+              maskType: 'BRL',
+              withDDD: true,
+              dddMask: '(99) '
+            }}
             style={styles.input}
             onChangeText={(telefone) => this.setState({telefone})}
             value={this.state.telefone}
+            ref={(ref) => {this.phoneField = ref}}
+            maxLength = {15}
+            
           />
 
           <Text style={styles.textInput}>Email</Text>
@@ -114,9 +128,14 @@ static navigationOptions = {
   }
 
   continue_register = () => {
-    //console.log(this.state)
+    //console.log(this.state);
+    console.log(moment(this.state.idade, 'DD/MM/YYYY').isValid());
     console.log(validate({nome: this.state.nome}, validation) )
-    if(moment(this.state.idade).isValid() ){
+    let phone = this.phoneField.getRawValue()
+    console.log(phone);
+    this.setState({telefoneunmasked: phone});
+    //console.log(this.state.telefoneunmasked);
+    if(moment(this.state.idade, 'DD/MM/YYYY').isValid() && this.state.telefoneunmasked && this.state.senha == this.state.confirmSenha ){
       this.props.navigation.navigate('PatientRegister2',this.state);
     }
   }
