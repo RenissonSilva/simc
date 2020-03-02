@@ -1,5 +1,5 @@
 {
-  "name": "AwesomeProject",
+  "name": "simc",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -24,6 +24,7 @@
     "react-native-gesture-handler": "^1.6.0",
     "react-native-masked-text": "^1.13.0",
     "react-native-reanimated": "^1.7.0",
+    "react-native-rename": "^2.4.1",
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.1.0",
     "react-native-tab-view": "^2.13.0",
