@@ -75,9 +75,6 @@ static navigationOptions = {
               .oneOf([yup.ref('senha'), null],'As senhas não podem ser diferentes')
               .required('Confirmação de senha e um campo obrigatório')
 
-
-
-
           })}>
         
       {({ values, handleChange, errors, setFieldTouched, touched, isValid, handleSubmit }) => (
