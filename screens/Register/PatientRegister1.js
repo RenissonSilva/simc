@@ -282,13 +282,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#FF5F54',
     alignSelf: 'center',
     marginTop: 50,
-    height: 40,
-    width: '38%',
+    height: 50,
+    width: '45%',
     justifyContent: 'center',
   },
   submitText: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 21,
     alignSelf: 'center',
   },
   picker: {
