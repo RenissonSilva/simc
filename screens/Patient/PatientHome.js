@@ -15,10 +15,22 @@ import HomeScreen from '../HomeComponent/HomeScreen';
 import ChatScreen from '../HomeComponent/ChatSreen';
 import ProfileScreen from '../HomeComponent/ProfileScreen';
 import RelativeScreen from '../HomeComponent/RelativeScreen';
-
+import AsyncStorage from '@react-native-community/async-storage';
 
 const Stack = createMaterialTopTabNavigator();
 export default class PatientHome extends Component {
+
+  constructor(props){
+    super(props)
+    this.state = {token:''}
+  }
+  componentDidMount(){
+    AsyncStorage.getItem('Token').then( evt => {
+      //console.log(evt)
+      this.setState({token: evt})
+    })
+    
+  }
   render() {
     return (
       <NavigationContainer>
