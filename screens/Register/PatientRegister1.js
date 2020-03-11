@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import querystring from 'query-string';
-import validate from 'validate.js';
 import {TextInputMask} from 'react-native-masked-text';
 import moment from 'moment';
 import {Formik} from 'formik';
@@ -47,7 +46,7 @@ export default class PatientRegister1 extends Component {
             senha: '',
             confirmsenha: '',
           }}
-          onSubmit={values =>
+          onSubmit={values => 
             moment(values.idade, 'DD/MM/YYYY').isValid()
               ? this.props.navigation.navigate('PatientRegister2', {
                   values,
