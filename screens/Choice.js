@@ -22,7 +22,7 @@ export default class App extends React.Component {
         <TouchableOpacity
           style={styles.btn}
           onPress={() => {
-            this.props.navigation.navigate('PatientLogin');
+            this.props.navigation.navigate('Login', {user : 'patient'});
           }}>
           <Icon name="user" size={70} color="#fff" style={styles.icon} />
           <Text style={styles.btnText}>Paciente</Text>
@@ -31,7 +31,7 @@ export default class App extends React.Component {
         <TouchableOpacity
           style={styles.btn}
           onPress={() => {
-            this.props.navigation.navigate('RelativeLogin');
+            this.props.navigation.navigate('Login', {user : 'relative'});
           }}>
           <Icon name="users" size={70} color="#fff" style={styles.icon} />
           <Text style={styles.btnText}>Familiar</Text>
@@ -40,7 +40,7 @@ export default class App extends React.Component {
         <TouchableOpacity
           style={styles.btn}
           onPress={() => {
-            this.props.navigation.navigate('DoctorLogin');
+            this.props.navigation.navigate('Login', {user: 'doctor'});
           }}>
           <Icon name="user-md" size={70} color="#fff" style={styles.icon} />
           <Text style={styles.btnText}>Médico</Text>
