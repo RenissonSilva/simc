@@ -1,14 +1,30 @@
 import React, { Component } from 'react';
 import { StyleSheet, Image, TouchableOpacity, Text, View, ImageBackground, Button } from 'react-native';
-
+import NetInfo from "@react-native-community/netinfo";
 export default class HomeScreen extends React.Component {
     static navigationOptions = {
         headerShown: false
     }
+  constructor(props){
+    super(props);
+    this.state = {isConnected: false}
+  }
+  componentDidMount(){
+    NetInfo.fetch().then(state => {
+      //console.log("Connection type", state.type);
+      //console.log("Is connected?", state.isConnected);
+      state.isConnected ? this.setState({isConnected: state.isConnected}) : console.log("Is connected?", this.state.isConnected);
+     });
+  }
   render() {
     return (
       <ImageBackground source={require('../images/watch.jpeg')} style={styles.imgBg}>
         <Image style={styles.imgLogo} source={require('../images/whiteLogo.png')} />
+      <View style={styles.container}>
+        {!this.state.isConnected && (
+          <Text>Por favor conecte-se a internet</Text>
+        )}
+      </View>
       <View style={styles.container}>
         <Text style={styles.txtTitulo}>
           Monitoramento cardíaco
@@ -18,14 +34,16 @@ export default class HomeScreen extends React.Component {
         </Text>
         <View style={styles.btns}>
           <TouchableOpacity style={styles.btn}
+            disabled={!this.state.isConnected}
             onPress = {() => { this.props.navigation.navigate('ChoiceRegis')}}
           >
-              <Text style={styles.btnText}>Cadastrar</Text>
+            <Text style={styles.btnText}>Cadastrar</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.btn}
+            disabled={!this.state.isConnected}
             onPress = {() => { this.props.navigation.navigate('Choice')}}
             >
-              <Text style={styles.btnText}>Entrar</Text>
+            <Text style={styles.btnText}>Entrar</Text>
           </TouchableOpacity>
           </View>
 
