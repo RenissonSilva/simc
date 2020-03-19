@@ -82,7 +82,7 @@ export default class PatientRegister1 extends Component {
               .string()
               .matches(/^[A-z]/, 'Este Campo não pode conter números')
               .required('Ocupação é um campo obrigatório')
-              .min(4, 'O Campo tem que ter mais de 4 caracteres')
+              .min(5, 'O Campo tem que ter mais de 5 caracteres')
               .max(30, 'O Campo não pode passar de 30 caracteres'),
 
             senha: yup.string().required('Senha é um campo obrigatório'),
