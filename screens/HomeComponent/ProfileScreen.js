@@ -1,17 +1,85 @@
 import React, { Component } from 'react';
 import styles from './style';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image ,ScrollView} from 'react-native';
+import axios from 'axios';
+import http from '../../services/axiosconf';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 export default class ProfileScreen extends Component {
+
+  state = {
+    token : '',
+    user: ''
+  }
+  constructor(props){
+    super(props)
+    //this.state = {nome: '',datanasc: '', telefone: null, sexo: '', email: '', ocupacao: '', endereco: '',cidade: '', estado: '',cep: '', user: '', token: '' }
+
+  }
+  componentDidMount(){
+    AsyncStorage.getItem('Token').then( evt => {
+      //console.log(evt)
+      this.setState({token: evt})
+    })
+    AsyncStorage.getItem('User').then( evt => {
+      //console.log(evt)
+      this.setState({user: evt})
+    })
+    http.get('/'+this.state.user+'/detail', {
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': this.state.token
+      }
+    })
+    .then(
+      res => { 
+        console.log(res.data);
+      }
+    )
+    .catch(
+      error  => {
+        console.log(error)
+    })
+  }
+  
+  getProfile = () => {
+    console.log(this.state.token.toString())
+    
+    let config = {
+      headers: {
+        'Accept': 'application/json',
+        'Autorithation': this.state.token
+      }
+    }
+    http.get('/'+this.state.user+'/detail', {
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': this.state.token
+      }
+    })
+    .then(
+      res => { 
+        console.log(res.data);
+      }
+    )
+    .catch(
+      error  => {
+        console.log(error)
+    })
+    
+
+  }
   render() {
     return (
+
     <View style={styles.container}>
+      <ScrollView>
       <Image
         style={styles.imgProfile}
         source={require('../../images/profilePatient.jpg')}
       />
-      <Text style={styles.nome}>Renato Silva</Text>
+      <Text style={styles.nome} onPress={this.getProfile}>Renato Silva</Text>
       <Text style={styles.ano}>1996</Text>
 
       <View style={styles.containerDados}>
@@ -39,6 +107,7 @@ export default class ProfileScreen extends Component {
         <Text style={styles.dado}>Estado: Pernambuco</Text>
         <Text style={styles.dado}>CEP: 21652-100</Text>
       </View>
+      </ScrollView>
     </View>
     );
   }
