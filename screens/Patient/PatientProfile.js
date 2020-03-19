@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { StyleSheet, Image, TouchableOpacity, Text, View, ImageBackground } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
+import LottieView from 'lottie-react-native';
 
 export default class App extends React.Component {
   static navigationOptions = {
@@ -8,10 +10,18 @@ export default class App extends React.Component {
       headerStyle: { backgroundColor: '#FF5F54' },
       headerTintColor: 'white',
   }
+  constructor(props){
+    super(props)
+    
+  }
+  componentDidMount(){
+      AsyncStorage.getItem('Token').then( res => {
+        console.log(res)
+      })
+  }
   render() {
     return (
       <View style={styles.container}>
-
         <Image style={styles.imgProfile} source={require('../images/profilePatient.jpg')} />
         <Text style={styles.nome}>Renato Silva</Text>
         <Text style={styles.ano}>1996</Text>
