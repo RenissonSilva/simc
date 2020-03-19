@@ -19,7 +19,6 @@ export default class HomeScreen extends Component {
 
     componentDidMount(){
         
-   
        
         AsyncStorage.getItem('Token').then(
             res => {
@@ -81,7 +80,7 @@ export default class HomeScreen extends Component {
         await AsyncStorage.removeItem("User")
         //GoogleFit.disconnect();
         AsyncStorage.getItem('Token').then( res => {
-            //this.navigate('Home')
+            this.props.navigation.navigate('LoadHome');
         })
     }
     
