@@ -262,7 +262,7 @@ export default class PatientRegister2 extends Component {
             console.log(response.data);
             console.log(response.data.access_token);
             if (response.data.access_token) {
-              this.props.navigation.navigate('PatientLogin');
+              this.props.navigation.navigate('Login');
             }
           })
           .catch(error => {
