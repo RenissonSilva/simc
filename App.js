@@ -15,7 +15,9 @@ import RelativeRegister2 from './screens/Register/RelativeRegister2';
 import DoctorRegister from './screens/Register/DoctorRegister';
 import Login from './screens/Login';
 import LoadHome from './screens/LoadHome';
+import HomeComponent from './screens/HomeComponent/HomeScreen'
 import { isSignedIn } from './services/auth';
+
 import {AsyncStorage} from '@react-native-community/async-storage';
 export default class App extends React.Component {
 
@@ -43,7 +45,7 @@ const RootStack = createStackNavigator(
     RelativeRegister2 : RelativeRegister2,
     DoctorRegister : DoctorRegister,
     Login : Login,
-    LoadHome: LoadHome
+    LoadHome: LoadHome,
   },
   {
     initialRouteName: 'LoadHome',
