@@ -16,44 +16,79 @@ import ChatScreen from '../HomeComponent/ChatSreen';
 import ProfileScreen from '../HomeComponent/ProfileScreen';
 import RelativeScreen from '../HomeComponent/RelativeScreen';
 import AsyncStorage from '@react-native-community/async-storage';
+import http from '../../services/axiosconf';
+
 
 const Stack = createMaterialTopTabNavigator();
 export default class PatientHome extends Component {
 
+  static navigationOptions = {
+    title: 'Home',
+    headerLeft: false,
+    headerStyle: { backgroundColor: '#FF5F54' },
+    headerTintColor: 'white',
+    headerRight: <Icon name='cog' onPress={()=> console.log('teste')} />
+  };
+
   constructor(props){
     super(props)
-    this.state = {token:''}
+    this.state = {token:'', user: ''}
   }
   componentDidMount(){
-    AsyncStorage.getItem('Token').then( evt => {
-      //console.log(evt)
-      this.setState({token: evt})
+    AsyncStorage.getItem('Token').then( token => {
+      this.setState({token})
+    })
+    AsyncStorage.getItem('User').then( user => {
+      this.setState({user})
     })
     
   }
   render() {
     return (
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="Home"
-          tabBarOptions={{
-            activeTintColor: '#FF5F54',
-            inactiveTintColor: '#CCCCCC',
-            labelStyle: {
-              fontSize: 13,
-            },
-            indicatorStyle: {
-              backgroundColor: '#FF5F54',
-            },
-          }}>
-          <Stack.Screen name="Status" component={HomeScreen} />
-          <Stack.Screen name="Chat" component={ChatScreen} />
-          <Stack.Screen name="Perfil" component={ProfileScreen} />
-          <Stack.Screen name="Familiares" component={RelativeScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="Home"
+            tabBarOptions={{
+              activeTintColor: '#FF5F54',
+              inactiveTintColor: '#CCCCCC',
+              labelStyle: {
+                fontSize: 13,
+              },
+              indicatorStyle: {
+                backgroundColor: '#FF5F54',
+              },
+            }}>
+            <Stack.Screen name="Status" component={HomeScreen} >
+            </Stack.Screen>
+            <Stack.Screen name="Chat" component={ChatScreen} />
+            <Stack.Screen name="Perfil" component={ProfileScreen} />
+            <Stack.Screen name="Familiares" component={RelativeScreen} />
+          </Stack.Navigator>
+        <Text onPress={this.signOut}>Teste</Text>
+        </NavigationContainer>
     );
   }
+
+  signOut = async () => {
+
+    console.log(this.state.token)
+    await http.post('/'+this.state.user+'/logout',{
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': this.state.token
+      }
+    }).then(res => {
+      console.log(res)
+      //this.props.navigation.navigate('Home');
+    })
+    
+    //AsyncStorage.removeItem("Token")
+    //AsyncStorage.removeItem("User")
+    //GoogleFit.disconnect();
+ 
+
+  }
+
 }
 
 const styles = StyleSheet.create({
