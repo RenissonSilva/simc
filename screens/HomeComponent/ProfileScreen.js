@@ -4,13 +4,14 @@ import { View, Text, Image ,ScrollView} from 'react-native';
 import axios from 'axios';
 import http from '../../services/axiosconf';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export default class ProfileScreen extends Component {
 
   state = {
     token : '',
-    user: ''
+    user: '',
+    spinner: false
   }
   constructor(props){
     super(props)
@@ -18,6 +19,7 @@ export default class ProfileScreen extends Component {
 
   }
   componentDidMount(){
+    //this.setState({spinner: true})
     AsyncStorage.getItem('Token').then( evt => {
       //console.log(evt)
       this.setState({token: evt})
@@ -35,6 +37,7 @@ export default class ProfileScreen extends Component {
     .then(
       res => { 
         console.log(res.data);
+        //res.data ? this.setState({spinner: false}): this.setState({spinner: true}) ; 
       }
     )
     .catch(
@@ -74,6 +77,11 @@ export default class ProfileScreen extends Component {
     return (
 
     <View style={styles.container}>
+       <Spinner
+        visible={this.state.spinner}
+        textContent={'Loading...'}
+        textStyle={styles.spinnerTextStyle}
+      />
       <ScrollView>
       <Image
         style={styles.imgProfile}

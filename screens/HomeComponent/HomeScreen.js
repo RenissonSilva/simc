@@ -14,16 +14,15 @@ export default class HomeScreen extends Component {
     
     constructor(props){
         super(props);
-        this.state = {authorize: false, heartdata: '', date: ''}
+        this.state = {authorize: false, heartdata: '', date: '', spinner: false}
     }
 
     componentDidMount(){
         
-       
         AsyncStorage.getItem('Token').then(
             res => {
                 //console.log(res);
-                console.log((res === null) ? true : false );
+                //console.log((res === null) ? true : false );
                 if (res !== null){
                     console.log('logado');
                 }
@@ -32,17 +31,17 @@ export default class HomeScreen extends Component {
                     //this.props.navigation.navigate('Home')
                 }
             }
-        )
-        //( AsyncStorage.getItem('Token') !== null ) ? console.log('logado') : this.props.navigation.navigate('HomeScreen')
-        //console.log(RNLocalize.getTimeZone());
-        console.log("Date -> " + moment(new Date()).tz(RNLocalize.getTimeZone()).format())
-        const options = {
-            scopes: [
-                Scopes.FITNESS_ACTIVITY_READ_WRITE,
-                Scopes.FITNESS_BODY_READ_WRITE,
-            ],
-        }
-        GoogleFit.authorize(options)
+            )
+            //( AsyncStorage.getItem('Token') !== null ) ? console.log('logado') : this.props.navigation.navigate('HomeScreen')
+            //console.log(RNLocalize.getTimeZone());
+            //console.log("Date -> " + moment(new Date()).tz(RNLocalize.getTimeZone()).format())
+            const options = {
+                scopes: [
+                    Scopes.FITNESS_ACTIVITY_READ_WRITE,
+                    Scopes.FITNESS_BODY_READ_WRITE,
+                ],
+            }
+            GoogleFit.authorize(options)
             .then(authResult => {
             //console.log(authResult);
             if (authResult.success) {
@@ -59,7 +58,6 @@ export default class HomeScreen extends Component {
                     this.setState({heartdata: response[0]})
                     //console.log(this.state);
                 }
-                
             });
             
             GoogleFit.getHeartRateSamples(options, callback);
@@ -90,7 +88,7 @@ export default class HomeScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-            
+           
             <TouchableOpacity style={styles.btn}>
                     <Text style={styles.btnText}>Batimento cardíaco</Text>
                     { this.state.authorize &&
