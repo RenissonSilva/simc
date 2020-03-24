@@ -4,7 +4,8 @@ import { View, Text, StyleSheet, Platform} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import LottieView from 'lottie-react-native';
 import NetInfo from "@react-native-community/netinfo";
-  
+import http from "../services/axiosconf";
+import GoogleFit, { Scopes } from 'react-native-google-fit';
 export default class LoadHome extends Component {
 
     static navigationOptions = {
@@ -13,7 +14,7 @@ export default class LoadHome extends Component {
 
     constructor(props){
         super(props);
-        this.state = {isConnected: false, token: '', user: ''}
+        this.state = {isConnected: false, token: '', user: '',valited: false}
     }
     
     componentDidMount(){
@@ -23,23 +24,58 @@ export default class LoadHome extends Component {
         });
 
         AsyncStorage.multiGet(['Token','User']).then( evt => {
-
-            (evt[0][1] && evt[1][1] && this.state.isConnected ) ? this.props.navigation.navigate('PatientHome') : this.props.navigation.navigate('Home')
-            //console.log(evt[0][1],evt[1][1]);
-             if(evt == null || !this.state.isConnected){
-                //this.props.navigation.navigate('Home')
-                
-             }
-             else{
-                //this.props.navigation.navigate('PatientHome')
-            }
+            this.checkToken(evt[1][1], evt[0][1])
+            //(evt[0][1] && evt[1][1] && this.state.isConnected && this.state.valited ) ? this.props.navigation.navigate('PatientHome') : this.props.navigation.navigate('Home')
         })
     }
     checkToken(user, token){
-        
+        console.log(user,token);
+        if(user && token && this.state.isConnected){
+            http.get('/'+user+'/check',{
+                headers:{
+                    'Accept': 'application/json',
+                    'Authorization': token
+                }
+            })
+            .then( 
+                res => {
+                    if(res.data){
+                        this.props.navigation.navigate('PatientHome')
+                    }
+                }
+                )
+                .catch(
+                    error => {
+                        http.post('/'+user+'/logout',{},{
+                            headers: {
+                                'Accept': 'application/json',
+                                'Authorization': token
+                            }
+                        }).then(res => {
+                            if(res.data){
+                                AsyncStorage.removeItem("Token") 
+                                AsyncStorage.removeItem("User")
+                                GoogleFit.disconnect()
+                            }
+                        })
+                        .catch(
+                            error => {
+                                AsyncStorage.removeItem("Token") 
+                                AsyncStorage.removeItem("User")
+                                GoogleFit.disconnect()
+                            }
+                            )
+                            this.props.navigation.navigate('Home')
+                        }
+                        )
+        }
+        else {
+            this.props.navigation.navigate('Home')
+        }
     }
     render() {
         return (
+        
            <LottieView ref={animation => {
                 this.animation = animation;
             }}
