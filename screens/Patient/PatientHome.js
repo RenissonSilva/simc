@@ -17,7 +17,8 @@ import ProfileScreen from '../HomeComponent/ProfileScreen';
 import RelativeScreen from '../HomeComponent/RelativeScreen';
 import AsyncStorage from '@react-native-community/async-storage';
 import http from '../../services/axiosconf';
-
+import GoogleFit, { Scopes } from 'react-native-google-fit';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const Stack = createMaterialTopTabNavigator();
 export default class PatientHome extends Component {
@@ -70,23 +71,30 @@ export default class PatientHome extends Component {
   }
 
   signOut = async () => {
-
-    console.log(this.state.token)
-    await http.post('/'+this.state.user+'/logout',{
+    //console.log(this.state.token)
+    await http.post('/'+this.state.user+'/logout',{},{
       headers: {
         'Accept': 'application/json',
         'Authorization': this.state.token
       }
     }).then(res => {
-      console.log(res)
-      //this.props.navigation.navigate('Home');
+      //console.log(res.data)
+      if(res.data){
+        AsyncStorage.removeItem("Token") 
+        AsyncStorage.removeItem("User")
+        GoogleFit.disconnect()
+        this.props.navigation.navigate('Home') 
+      }
     })
-    
-    //AsyncStorage.removeItem("Token")
-    //AsyncStorage.removeItem("User")
-    //GoogleFit.disconnect();
- 
-
+    .catch(
+      error => {
+        //console.log(error)
+        AsyncStorage.removeItem("Token") 
+        AsyncStorage.removeItem("User")
+        GoogleFit.disconnect()
+        this.props.navigation.navigate('Home') 
+      }
+    )
   }
 
 }
@@ -97,6 +105,9 @@ const styles = StyleSheet.create({
   },
   teste: {
     flexDirection: 'row',
+  },
+  spinnerTextStyle: {
+    color: '#FFF'
   },
   btn: {
     justifyContent: 'center',
