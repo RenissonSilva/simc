@@ -7,6 +7,9 @@ export default StyleSheet.create({
       teste: {
         flexDirection: 'row',
       },
+      spinnerTextStyle: {
+        color: '#FFF'
+      },
       btn: {
         justifyContent: 'center',
         width: '75%',
