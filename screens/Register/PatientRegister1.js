@@ -85,10 +85,16 @@ export default class PatientRegister1 extends Component {
               .min(5, 'O Campo tem que ter mais de 5 caracteres')
               .max(30, 'O Campo não pode passar de 30 caracteres'),
 
-            senha: yup.string().required('Senha é um campo obrigatório'),
+            senha: yup
+            .string()
+            .min(6,'O Campo tem que ter mais de 6 caracteres')
+            .max(10,'O Campo não pode passar de 10 caracteres' )
+            .required('Senha é um campo obrigatório'),
 
             confirmsenha: yup
               .string()
+              .min(6,'O Campo tem que ter mais de 6 caracteres')
+              .max(10,'O Campo não pode passar de 10 caracteres' )
               .oneOf(
                 [yup.ref('senha'), null],
                 'As senhas não podem ser diferentes',
@@ -192,7 +198,7 @@ export default class PatientRegister1 extends Component {
                 onChangeText={handleChange('ocupacao')}
                 value={values.ocupacao}
                 onBlur={() => setFieldTouched('ocupacao')}
-                placeholder="Ex. Garoto de Programa(dev)"
+                placeholder="Ex. Desenvolvedor"
               />
               {touched.ocupacao && errors.ocupacao && (
                 <Text style={styles.validationError}>{errors.ocupacao}</Text>
@@ -205,7 +211,7 @@ export default class PatientRegister1 extends Component {
                 onChangeText={handleChange('senha')}
                 value={values.senha}
                 onBlur={() => setFieldTouched('senha')}
-                placeholder="Ex. senhasenha"
+                placeholder="******"
               />
               {touched.senha && errors.senha && (
                 <Text style={styles.validationError}>{errors.senha}</Text>
@@ -218,7 +224,7 @@ export default class PatientRegister1 extends Component {
                 onChangeText={handleChange('confirmsenha')}
                 value={values.confirmSenha}
                 onBlur={() => setFieldTouched('confirmsenha')}
-                placeholder="Ex. senhasenha"
+                placeholder="******"
               />
               {touched.confirmsenha && errors.confirmsenha && (
                 <Text style={styles.validationError}>
