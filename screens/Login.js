@@ -4,6 +4,9 @@ import { StyleSheet, Text, View, TextInput,SubmitButton, TouchableOpacity,Button
 import axios from 'axios';
 import querystring from 'query-string';
 import AsyncStorage from '@react-native-community/async-storage';
+import Loading from '../screens/Loading';
+import {Formik} from 'formik';
+import * as yup from 'yup';
 
 export default class Login extends Component {
 
@@ -17,26 +20,25 @@ static navigationOptions = {
   constructor(props) {
     super(props);
     this.state = {user: ''}
-    this.state = {email: ''};
-    this.state = {password: ''};
     this.state = {token: ''};
     this.state = {data: null};
     this.state = {dataerror: null};
+    this.state = {loading: false};
 
   }
+
   componentDidMount(){
     this.setState({user: this.props.navigation.state.params.user})
-
   }
-  signIn = () => {
+
+  signIn = values => {
+    this.setState({loading: true})
     return axios.post('https://apisimc.herokuapp.com/api/'+this.state.user+'/login?',querystring.stringify({
-      email: this.state.email,
-      password: this.state.password,
+      email: values.email,
+      password: values.password,
     }))
     .then(res => {this.state.dataresponse = res.data  
-      //console.log(res)
       this.state.token = res.data.token_type + " " + res.data.access_token
-      //console.log(this.state.token);
       try{
         AsyncStorage.setItem('Token', this.state.token);
         AsyncStorage.setItem('User', this.state.user);
@@ -44,38 +46,101 @@ static navigationOptions = {
         console.log(e);
       }
       this.next(this.state.token);
-      //this.props.navigation.navigate('PatientHome', this.state.token )
     })
-    .catch(error => {console.log(error)})
+    .catch(error => {
+      console.log(error)
+      this.setState({dataerror: 'Email ou Senha nao são validos'})
+      this.setState({loading: false})
+    })
     
   };
   
   next(item){
-    this.props.navigation.navigate('PatientHome', {token: item})
+    this.props.navigation.navigate('PatientHome', {token: item, user: this.state.user})
   };
 
   render() {
     return (
       <View style={styles.container}>
         
-          <Text style={styles.textInput}>Email</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={(email) => this.setState({email})}
-            value={this.state.email}
-          />
-          <Text style={styles.textInput}>Senha</Text>
-          <TextInput
-            secureTextEntry={true}
-            style={styles.input}
-            onChangeText={(password) => this.setState({password})}
-            value={this.state.password}
-          />
-          <TouchableOpacity
-               style = {styles.submitButton}
-               onPress = { this.signIn }>
-               <Text style = {styles.submitText}> Confirmar </Text>
-            </TouchableOpacity>
+        { this.state.loading && <Loading/> }
+         
+        { !this.state.loading && (
+          <View>
+            { this.state.dataerror && (
+              <Text>{this.state.dataerror}</Text>
+            )}
+            <Formik
+              initialValues={{
+                email: '',
+                password: '',
+              }}
+              onSubmit={
+                values => this.signIn(values)
+              }
+              validationSchema={ yup.object().shape({
+                email: yup
+                .string()
+                .email('Este é um campo para email')
+                .required('Email é um campo obrigatório')
+                .min(10, 'O Campo tem que ter mais de 10 caracteres')
+                .max(30, 'O Campo não pode passar de 30 caracteres'),
+
+                password: yup
+                .string()
+                .min(6,'O Campo tem que ter mais de 6 caracteres')
+                .max(10,'O Campo não pode passar de 10 caracteres' )
+                .required('Senha é um campo obrigatório'),
+
+              })
+
+              }
+            >
+            {({
+              values,
+              handleChange,
+              errors,
+              setFieldTouched,
+              touched,
+              isValid,
+              handleSubmit,
+            }) => (
+              <View>
+                <Text style={styles.textInput}>Email</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={handleChange('email')}
+                  value={values.email}
+                  onBlur={() => setFieldTouched('email')}
+                  placeholder="Ex. exemplo@email.com"
+                />
+                { touched.email && errors.email && (
+                  <Text>{errors.email}</Text>
+                )}
+                <Text style={styles.textInput}>Senha</Text>
+                <TextInput
+                  secureTextEntry={true}
+                  style={styles.input}
+                  onChangeText={handleChange('password')}
+                  value={values.password}
+                  onBlur={() =>  setFieldTouched('password')}
+                  placeholder="******"
+                />
+                { touched.password && errors.password && (
+                  <Text>{errors.password}</Text>
+                )}
+                <TouchableOpacity
+                      style = {styles.submitButton}
+                      disabled={!isValid}
+                      onPress = {handleSubmit}>
+                      <Text style = {styles.submitText}> Confirmar </Text>
+                </TouchableOpacity>
+              </View>  
+            )}
+            </Formik>
+          </View>
+          )
+        }
       </View>
     );
   }
