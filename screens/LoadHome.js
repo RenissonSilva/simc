@@ -29,7 +29,6 @@ export default class LoadHome extends Component {
         })
     }
     checkToken(user, token){
-        console.log(user,token);
         if(user && token && this.state.isConnected){
             http.get('/'+user+'/check',{
                 headers:{
