@@ -14,6 +14,7 @@ import moment from 'moment';
 import {TextInputMask} from 'react-native-masked-text';
 import {Formik, useFormikContext} from 'formik';
 import * as yup from 'yup';
+import http from '../../services/axiosconf';
 
 export default class PatientRegister2 extends Component {
   static navigationOptions = {
@@ -21,24 +22,15 @@ export default class PatientRegister2 extends Component {
     headerStyle: {backgroundColor: '#FF5F54'},
     headerTintColor: 'white',
   };
-  // <Image style={styles.imgLogo} source={require('../images/whiteLogo.png')} />
 
   constructor(props) {
     super(props);
     this.state = {cep: '', cepunmasked: ''};
-    this.state = {rua: ''};
-    this.state = {cidade: ''};
-    this.state = {estado: ''};
-    this.state = {pais: ''};
-    this.state = {numero: ''};
-    this.state = {complemento: ''};
   }
   componentDidMount() {
     const {params} = this.props.navigation.state;
     console.log(params);
     moment.locale('pt-BR');
-    //console.log(moment(params.idade).isValid());
-    //console.log(moment(params.idade,['DD-MM-YYYY','YYYY-MM-DD']).utc().format('YYYY-MM-DD'));
   }
 
   render() {
@@ -222,8 +214,6 @@ export default class PatientRegister2 extends Component {
 
   Register(values) {
     const {params} = this.props.navigation.state;
-    //console.log(params);
-    //console.log(this.state)
     let cep = this.cepField.getRawValue();
     console.log(cep);
     this.setState({cepunmasked: cep});
@@ -232,12 +222,11 @@ export default class PatientRegister2 extends Component {
         .utc()
         .format('YYYY-MM-DD'),
     );
-    //console.log(this.state.cepunmasked);
     if (this.state.cepunmasked) {
       if (params) {
-        axios
+        http
           .post(
-            'https://apisimc.herokuapp.com/api/patient/register?',
+            '/patient/register?',
             querystring.stringify({
               name: params.values.nome,
               sex: params.values.sexo,
@@ -259,10 +248,8 @@ export default class PatientRegister2 extends Component {
             }),
           )
           .then(response => {
-            console.log(response.data);
-            console.log(response.data.access_token);
             if (response.data.access_token) {
-              this.props.navigation.navigate('Login');
+              this.props.navigation.navigate('Login',{user: 'patient'});
             }
           })
           .catch(error => {
