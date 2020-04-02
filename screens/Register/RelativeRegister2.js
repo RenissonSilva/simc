@@ -1,120 +1,300 @@
-import React, { Component } from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity,ScrollView } from 'react-native';
-import axios from 'axios';
-import querystring from 'query-string';
+import React, { Component, Fragment } from 'react';
+import {
+    StyleSheet,
+    Text,
+    View,
+    TextInput,
+    TouchableOpacity,
+    ScrollView,
+  } from 'react-native';
+  import axios from 'axios';
+  import querystring from 'query-string';
+  import moment from 'moment';
+  import {TextInputMask} from 'react-native-masked-text';
+  import {Formik, useFormikContext} from 'formik';
+  import * as yup from 'yup';
+  import http from '../../services/axiosconf';
+  import Loading from '../Loading';
 
-export default class PatientLogin extends Component {
+// import { Container } from './styles';
 
-static navigationOptions = {
-      headerTitle:'Endereço',
-      headerStyle: { backgroundColor: '#FF5F54' },
-      headerTintColor: 'white',
-  }
-      // <Image style={styles.imgLogo} source={require('../images/whiteLogo.png')} />
+export default class RelativeRegister2 extends Component {
+    static navigationOptions = {
+        headerTitle: 'Endereço',
+        headerStyle: {backgroundColor: '#FF5F54'},
+        headerTintColor: 'white',
+    };
+    
+    constructor(props){
+        super(props)
+        this.state = {
+          loading:false,
+          cepunmasked: '',
+        }
+    }
+    componentDidMount(){
+        moment.locale('pt-BR');
+    }
+    componentDidUpdate(){
+      console.log(this.state.loading);
+    }
+    render() {
+
+    if(this.state.loading){
+      return (
+        <Loading/>
+      )
+    }
+    if(!this.state.loading){
+      return (
+          <ScrollView style={styles.scrollView}>
+              <Formik
+              initialValues={{
+                  cep: '',
+                  rua: '',
+                  cidade: '',
+                  estado: '',
+                  pais: '',
+                  numero: '',
+              }}
+              onSubmit={values => {
+                  this.Register(values);
+              }}
+              validationSchema={yup.object().shape({
+                  cep: yup.string().required('Cep e um campo obrigatório'),
   
-  constructor(props) {
-    super(props);
-    this.state = {cep: ''};
-    this.state = {rua: ''};
-    this.state = {cidade: ''};
-    this.state = {estado: ''};
-    this.state = {pais: ''};
-    this.state = {numero: ''};
-    this.state = {complemento: ''};
+                  rua: yup
+                  .string()
+                  .required('Rua e um campo obrigatório')
+                  .min(5, 'O Campo tem que ter mais de 5 caracteres')
+                  .max(25, 'O Campo não pode passar de 25 caracteres'),
+  
+                  pais: yup
+                  .string()
+                  .required('Pais e um campo obrigatório')
+                  .min(2, 'O Campo tem que ter mais de 2 caracteres')
+                  .max(10, 'O Campo não pode passar de 10 caracteres'),
+  
+                  estado: yup
+                  .string()
+                  .required('Estado e um campo obrigatório')
+                  .min(2, 'O Campo tem que ter mais de 2 caracteres')
+                  .max(18, 'O Campo não pode passar de 10 caracteres'),
+  
+                  cidade: yup
+                  .string()
+                  .required('Cidade e um campo obrigatório')
+                  .min(4, 'O Campo tem que ter mais de 4 caracteres')
+                  .max(25, 'O Campo não pode passar de 25 caracteres'),
+  
+                  numero: yup
+                  .string()
+                  .matches(/^[0-9]/, 'Este Campo não pode conter Letras')
+                  .min(1, 'O Campo tem que ter mais de 1 números')
+                  .max(5, 'O Campo não pode passar de 5 caracteres')
+                  .required('Numero e um campo obrigatório'),
+              })}>
+              {({
+                  values,
+                  handleChange,
+                  errors,
+                  setFieldTouched,
+                  touched,
+                  isValid,
+                  handleSubmit,
+              }) => (
+              <Fragment>
+                <Text style={styles.textInput}>CEP</Text>
+                <TextInputMask
+                  type={'zip-code'}
+                  style={styles.input}
+                  onChangeText={handleChange('cep')}
+                  value={values.cep}
+                  onBlur={() => {
+                    setFieldTouched('cep');
+                  }}
+                  maxLength={9}
+                  ref={ref => {
+                    this.cepField = ref;
+                  }}
+                  placeholder="Ex. 55222-100"
+                />
+                {touched.cep && errors.cep && (
+                  <Text style={{fontSize: 10, color: 'red'}}>{errors.cep}</Text>
+                )}
+  
+                <Text style={styles.textInput}>Rua</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={handleChange('rua')}
+                  value={values.rua}
+                  onBlur={() => {
+                    setFieldTouched('rua');
+                  }}
+                  placeholder="Ex. Av. fim do Mundo"
+                />
+                {touched.rua && errors.rua && (
+                  <Text style={{fontSize: 10, color: 'red'}}>{errors.rua}</Text>
+                )}
+  
+                <Text style={styles.textInput}>País</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={handleChange('pais')}
+                  value={values.pais}
+                  onBlur={() => setFieldTouched('pais')}
+                  placeholder="Ex. Brazil"
+                />
+                {touched.pais && errors.pais && (
+                  <Text style={{fontSize: 10, color: 'red'}}>{errors.pais}</Text>
+                )}
+  
+                <Text style={styles.textInput}>Estado</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={handleChange('estado')}
+                  value={values.estado}
+                  onBlur={() => setFieldTouched('estado')}
+                  placeholder="Ex.  Acre"
+                />
+                {touched.estado && errors.estado && (
+                  <Text style={{fontSize: 10, color: 'red'}}>
+                    {errors.estado}
+                  </Text>
+                )}
+  
+                <Text style={styles.textInput}>Cidade</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={handleChange('cidade')}
+                  value={values.cidade}
+                  onBlur={() => setFieldTouched('cidade')}
+                  placeholder="Ex. Hellcife"
+                />
+                {touched.cidade && errors.cidade && (
+                  <Text style={{fontSize: 10, color: 'red'}}>
+                    {errors.cidade}
+                  </Text>
+                )}
+  
+                <Text style={styles.textInput}>Número</Text>
+                <TextInput
+                  style={styles.input}
+                  onChangeText={handleChange('numero')}
+                  value={values.numero}
+                  onBlur={() => setFieldTouched('numero')}
+                  placeholder="Ex. 404"
+                />
+                {touched.numero && errors.numero && (
+                  <Text style={{fontSize: 10, color: 'red'}}>
+                    {errors.numero}
+                  </Text>
+                )}
+  
+                <TouchableOpacity
+                  style={styles.submitButton}
+                  disabled={!isValid}
+                  onPress={handleSubmit}>
+                  <Text style={styles.submitText}> Confirmar </Text>
+                </TouchableOpacity>
+              </Fragment>
+              )}
+              </Formik>
+          </ScrollView>
+      );
+    }
   }
 
-  render() {
-    return (
-        <ScrollView style={styles.scrollView}>
-          <Text style={styles.textInput}>CEP</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={(cep) => this.setState({cep})}
-            value={this.state.cep}
-          />
-          <Text style={styles.textInput}>Rua</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={(rua) => this.setState({rua})}
-            value={this.state.rua}
-          />
-          <Text style={styles.textInput}>País</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={(pais) => this.setState({pais})}
-            value={this.state.pais}
-          />
-          <Text style={styles.textInput}>Estado</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={(estado) => this.setState({estado})}
-            value={this.state.estado}
-          />
-          <Text style={styles.textInput}>Cidade</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={(cidade) => this.setState({cidade})}
-            value={this.state.cidade}
-          />
-          <Text style={styles.textInput}>Número</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={(numero) => this.setState({numero})}
-            value={this.state.numero}
-          />
-          <Text style={styles.textInput}>Complemento</Text>
-          <TextInput
-            secureTextEntry={true}
-            style={styles.input}
-            onChangeText={(complemento) => this.setState({complemento})}
-            value={this.state.complemento}
-          />
-
-          <TouchableOpacity
-               style = {styles.submitButton}
-               onPress = {this.signIn}>
-               <Text style = {styles.submitText}> Confirmar </Text>
-            </TouchableOpacity>
-          
-        </ScrollView>
-
-    );
+  Register(values) {
+    const {params} = this.props.navigation.state;
+    let cep = this.cepField.getRawValue();
+    this.setState({cepunmasked: cep});
+    console.log(this.state.cepunmasked)
+    this.setState({loading:true})
+    /*console.log(
+      moment(params.values.idade, ['DD-MM-YYYY', 'YYYY-MM-DD'])
+        .utc()
+        .format('YYYY-MM-DD'),
+    );*/
+    //console.log(this.state.cepunmasked);
+    if (this.state.cepunmasked) {
+      if (params) {
+        http
+          .post(
+            '/relative/register?',
+            querystring.stringify({
+              name: params.values.nome,
+              sex: params.values.sexo,
+              telephone: params.telefoneunmasked,
+              occupation: params.values.ocupacao,
+              address: values.rua,
+              city: values.cidade,
+              country: values.estado,
+              state_province: values.pais,
+              zip: this.state.cepunmasked,
+              password: params.values.senha,
+              birthday: moment(params.values.idade, [
+                'DD-MM-YYYY',
+                'YYYY-MM-DD',
+              ])
+                .utc()
+                .format('YYYY-MM-DD'),
+              email: params.values.email,
+            }),
+          )
+          .then(response => {
+            if (response.data.access_token) {
+              this.props.navigation.navigate('Login',{user: 'relative'});
+            }
+            else if(response.data.email){
+              this.props.navigation.navigate('RelativeRegister',{error: response.data.email});
+            }
+          })
+          .catch(error => {
+            console.log("error",error.response);
+          });
+      }
+    }
   }
+
+
+
 }
 
+
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
-  },
-  scrollView:{
-    marginBottom:50,
-  },
-  textInput:{
-    color:'#FF5F54',
-    fontSize:20,
-    marginTop:30,
-    marginBottom:5,
-    marginLeft:60,
-  },
-  input:{
-    height:40,
-    marginLeft:60,
-    marginRight:60,
-    borderBottomColor: '#FF5F54',
-    borderBottomWidth: 3,
-  },
-  submitButton:{
-    backgroundColor:'#FF5F54',
-    alignSelf:"center",
-    marginTop:50,
-    height:40,
-    width:"38%",
-    justifyContent:"center",
-  },
-  submitText:{
-    color:"#fff",
-    fontSize:18,
-    alignSelf:"center",
-  },
-});
+    container: {
+      flex: 1,
+    },
+    scrollView: {
+      marginBottom: 50,
+    },
+    textInput: {
+      color: '#FF5F54',
+      fontSize: 20,
+      marginTop: 30,
+      marginBottom: 5,
+      marginLeft: 60,
+    },
+    input: {
+      height: 40,
+      marginLeft: 60,
+      marginRight: 60,
+      borderBottomColor: '#FF5F54',
+      borderBottomWidth: 3,
+    },
+    submitButton: {
+      backgroundColor: '#FF5F54',
+      alignSelf: 'center',
+      marginTop: 50,
+      height: 50,
+      width: '45%',
+      justifyContent: 'center',
+    },
+    submitText: {
+      color: '#fff',
+      fontSize: 21,
+      alignSelf: 'center',
+    },
+  });
+  
