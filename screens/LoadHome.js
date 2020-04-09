@@ -39,12 +39,14 @@ export default class LoadHome extends Component {
             .then( 
                 res => {
                     if(res.data){
-                        this.props.navigation.navigate('PatientHome')
+                        //console.log(res)
+                        this.props.navigation.navigate('Stack')
                     }
                 }
                 )
                 .catch(
                     error => {
+                        console.log("LoadHome",error.toJSON())
                         http.post('/'+user+'/logout',{},{
                             headers: {
                                 'Accept': 'application/json',
@@ -69,13 +71,13 @@ export default class LoadHome extends Component {
                         )
         }
         else {
-            this.props.navigation.navigate('Home')
+            this.props.navigation.navigate('RootStack');
         }
     }
     render() {
         return (
         
-           <LottieView ref={animation => {
+           <LottieView  style={styles.fundo} ref={animation => {
                 this.animation = animation;
             }}
             source={require('../lf30_editor_iob6yv.json')}
@@ -91,6 +93,9 @@ export default class LoadHome extends Component {
 const styles = StyleSheet.create({
     background:{
         backgroundColor:'#FF5F54',
+    },
+    fundo: {
+        backgroundColor: '#ffffff'
     }
 
 })

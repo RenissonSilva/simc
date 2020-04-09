@@ -8,7 +8,7 @@ import {
   Image,
 } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import HomeScreen from '../HomeComponent/HomeScreen';
@@ -20,7 +20,7 @@ import http from '../../services/axiosconf';
 import GoogleFit, { Scopes } from 'react-native-google-fit';
 import Spinner from 'react-native-loading-spinner-overlay';
 
-const Stack = createMaterialTopTabNavigator();
+//const Stack = createMaterialTopTabNavigator();
 export default class PatientHome extends Component {
 
   static navigationOptions = {
@@ -28,7 +28,7 @@ export default class PatientHome extends Component {
     headerLeft: false,
     headerStyle: { backgroundColor: '#FF5F54' },
     headerTintColor: 'white',
-    headerRight: <Icon name='cog' onPress={()=> console.log('teste')} />
+    headerRight: () => <Icon name='cog' onPress={()=> console.log('teste')} />
   };
 
   constructor(props){
@@ -59,7 +59,7 @@ export default class PatientHome extends Component {
                 backgroundColor: '#FF5F54',
               },
             }}>
-            <Stack.Screen name="Status" component={HomeScreen} >
+            <Stack.Screen name="Status" component={HomeScreen} nav={this.props.navigation}>
             </Stack.Screen>
             <Stack.Screen name="Chat" component={ChatScreen} />
             <Stack.Screen name="Perfil" component={ProfileScreen} />

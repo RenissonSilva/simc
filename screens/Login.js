@@ -56,7 +56,7 @@ static navigationOptions = {
   };
   
   next(item){
-    this.props.navigation.navigate('PatientHome', {token: item, user: this.state.user})
+    this.props.navigation.navigate('Stack', {token: item, user: this.state.user})
   };
 
   render() {
