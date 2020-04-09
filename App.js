@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { StyleSheet, Image, TouchableOpacity, Text, View, ImageBackground } from 'react-native';
 import 'react-native-gesture-handler';
-import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from 'react-navigation-stack';
-import HomeScreen from './screens/HomeScreen';
+import {createAppContainer, createSwitchNavigator} from 'react-navigation';
+import { createStackNavigator} from 'react-navigation-stack';
+import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import Choice from './screens/Choice';
 import PatientHome from './screens/Patient/PatientHome';
 import RelativeHome from './screens/Relative/RelativeHome';
@@ -15,41 +15,76 @@ import RelativeRegister2 from './screens/Register/RelativeRegister2';
 import DoctorRegister from './screens/Register/DoctorRegister';
 import Login from './screens/Login';
 import LoadHome from './screens/LoadHome';
-import HomeComponent from './screens/HomeComponent/HomeScreen'
+import Home from './screens/HomeScreen';
 import { isSignedIn } from './services/auth';
-
 import {AsyncStorage} from '@react-native-community/async-storage';
-export default class App extends React.Component {
+import HomeScreen from './screens/HomeComponent/HomeScreen';
+import ProfileScreen from './screens/HomeComponent/ProfileScreen';
+import ChatScreen from './screens/HomeComponent/ChatSreen';
+import RelativeScreen from './screens/HomeComponent/RelativeScreen';
 
-  componentDidMount(){
-    //console.log( (AsyncStorage.getItem('Token') !== null) ? true : false )
-  }
+
+export default class App extends React.Component {
 
   render() {
     return (
-      <AppContainer/>      
+      <AppContainer/> 
     );
   }
 }
 
-const RootStack = createStackNavigator(
+const Stack = createMaterialTopTabNavigator(
   {
-    Home : HomeScreen,
-    Choice : Choice,
-    PatientHome : PatientHome,
-    RelativeHome: RelativeHome,
-    ChoiceRegis : ChoiceRegis,
-    PatientRegister : PatientRegister,
-    PatientRegister2 : PatientRegister2,
-    RelativeRegister : RelativeRegister,
-    RelativeRegister2 : RelativeRegister2,
-    DoctorRegister : DoctorRegister,
-    Login : Login,
-    LoadHome: LoadHome,
+    HomeScreen: HomeScreen,
+    ProfileScreen: ProfileScreen,
+    ChatScreen: ChatScreen,
+    RelativeScreen: RelativeScreen,
   },
   {
-    initialRouteName: 'LoadHome',
+    tabBarOptions: {
+      labelStyle: {
+        fontSize: 16,
+      },
+      tabStyle: {
+        width: 100,
+      },
+      style: {
+        backgroundColor: '#FF5F54',
+      },
+    },
+    swipeEnabled: true
+
   }
 );
 
-const AppContainer = createAppContainer(RootStack);
+const RootStack = createStackNavigator(
+  {
+    Home: Home,
+    Choice: Choice,
+    RelativeHome: RelativeHome,
+    ChoiceRegis: ChoiceRegis,
+    PatientRegister: PatientRegister,
+    PatientRegister2: PatientRegister2,
+    RelativeRegister: RelativeRegister,
+    RelativeRegister2: RelativeRegister2,
+    DoctorRegister: DoctorRegister,
+    Login: Login,
+  }
+);
+
+
+
+
+const Root = createSwitchNavigator(
+  {
+    LoadHome: LoadHome,
+    RootStack: RootStack,
+    Stack: Stack,
+  },
+  {
+    initialRouteName: 'LoadHome'
+  }
+
+)
+
+const AppContainer = createAppContainer(Root);
