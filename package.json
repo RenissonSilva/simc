@@ -23,7 +23,7 @@
     "moment-timezone": "^0.5.28",
     "query-string": "^6.11.0",
     "react": "16.9.0",
-    "react-native": "0.61.5",
+    "react-native": "^0.62.1",
     "react-native-animatable": "^1.3.3",
     "react-native-gesture-handler": "^1.6.0",
     "react-native-google-fit": "^0.10.0",
@@ -38,7 +38,9 @@
     "react-native-timezone": "^1.0.3",
     "react-native-vector-icons": "^6.6.0",
     "react-navigation": "^4.2.2",
+    "react-navigation-drawer": "^2.4.11",
     "react-navigation-stack": "^2.2.2",
+    "react-navigation-tabs": "^2.8.11",
     "validate.js": "^0.13.1",
     "yup": "^0.28.1"
   },
