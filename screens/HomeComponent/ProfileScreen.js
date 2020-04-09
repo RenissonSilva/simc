@@ -4,57 +4,32 @@ import { View, Text, Image ,ScrollView} from 'react-native';
 import axios from 'axios';
 import http from '../../services/axiosconf';
 import AsyncStorage from '@react-native-community/async-storage';
-import Spinner from 'react-native-loading-spinner-overlay';
-
+import Loading from '../Loading';
 export default class ProfileScreen extends Component {
+  
+  static navigationOptions = {
+    title: 'Profile',
+  };
 
-  state = {
-    token : '',
-    user: '',
-    spinner: false
-  }
+  state = {token: '', user: '', loading: false, nome: '', datanasc: '', telefone: null, sexo: '', email: '', ocupacao: '', endereco: '',cidade: '', estado: '',cep: '' }
+
   constructor(props){
     super(props)
-    //this.state = {nome: '',datanasc: '', telefone: null, sexo: '', email: '', ocupacao: '', endereco: '',cidade: '', estado: '',cep: '', user: '', token: '' }
 
   }
   componentDidMount(){
-    //this.setState({spinner: true})
-    AsyncStorage.getItem('Token').then( evt => {
-      //console.log(evt)
-      this.setState({token: evt})
-    })
-    AsyncStorage.getItem('User').then( evt => {
-      //console.log(evt)
-      this.setState({user: evt})
-    })
-    http.get('/'+this.state.user+'/detail', {
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': this.state.token
-      }
-    })
-    .then(
-      res => { 
-        console.log(res.data);
-        //res.data ? this.setState({spinner: false}): this.setState({spinner: true}) ; 
-      }
-    )
-    .catch(
-      error  => {
-        console.log(error)
-    })
+    this.setState({loading: true})
+    this.getProfile();
   }
   
-  getProfile = () => {
-    console.log(this.state.token.toString())
+  getProfile = async () => {
+
+    await AsyncStorage.multiGet(['Token','User']).then( evt => {
+      this.setState({user: evt[1][1]})
+      this.setState({token: evt[0][1]})
+    })
+    //console.log(this.state);
     
-    let config = {
-      headers: {
-        'Accept': 'application/json',
-        'Autorithation': this.state.token
-      }
-    }
     http.get('/'+this.state.user+'/detail', {
       headers: {
         'Accept': 'application/json',
@@ -63,7 +38,22 @@ export default class ProfileScreen extends Component {
     })
     .then(
       res => { 
-        console.log(res.data);
+        //console.log(res.data);
+        if(res.data){
+          this.setState({
+            nome: res.data.name,
+            datanasc: res.data.birthday,
+            telefone: res.data.telephone,
+            sexo: res.data.sex,
+            email:  res.data.email,
+            ocupacao: res.data.occupation,
+            endereco: res.data.address,
+            cidade: res.data.city,
+            estado: res.data.country,
+            cep:  res.data.zip
+          })
+          this.setState({loading:false})
+        }
       }
     )
     .catch(
@@ -73,35 +63,37 @@ export default class ProfileScreen extends Component {
     
 
   }
-  render() {
-    return (
 
-    <View style={styles.container}>
-       <Spinner
-        visible={this.state.spinner}
-        textContent={'Loading...'}
-        textStyle={styles.spinnerTextStyle}
-      />
+
+  render() {
+    if(this.state.loading){
+      return(
+        <Loading/>
+      )
+    }
+    if(!this.state.loading){
+      return (
+        <View style={styles.container}>
       <ScrollView>
       <Image
         style={styles.imgProfile}
         source={require('../../images/profilePatient.jpg')}
       />
-      <Text style={styles.nome} onPress={this.getProfile}>Renato Silva</Text>
-      <Text style={styles.ano}>1996</Text>
+      <Text style={styles.nome}>{this.state.nome}</Text>
+      <Text style={styles.ano}>{this.state.datanasc}</Text>
 
       <View style={styles.containerDados}>
         <View style={styles.infoIcon}>
           <Image
             style={styles.imgIcon}
             source={require('../../images/info.png')}
-          />
+            />
           <Text style={styles.info}>Informações pessoais</Text>
         </View>
-        <Text style={styles.dado}>Telefone : 988445577</Text>
-        <Text style={styles.dado}>Sexo : Masculino</Text>
-        <Text style={styles.dado}>E-mail: renatosilva@gmail.com</Text>
-        <Text style={styles.dado}>Ocupação: Engenheiro</Text>
+        <Text style={styles.dado}>Telefone : {this.state.telefone}</Text>
+        <Text style={styles.dado}>Sexo : {this.state.sexo}</Text>
+      <Text style={styles.dado}>E-mail: {this.state.email}</Text>
+        <Text style={styles.dado}>Ocupação: {this.state.ocupacao}</Text>
 
         <View style={styles.infoIcon}>
           <Image
@@ -110,13 +102,14 @@ export default class ProfileScreen extends Component {
           />
           <Text style={styles.info}>Endereço</Text>
         </View>
-        <Text style={styles.dado}>Av. Fagundes Varela, 100</Text>
-        <Text style={styles.dado}>Cidade: Olinda </Text>
-        <Text style={styles.dado}>Estado: Pernambuco</Text>
-        <Text style={styles.dado}>CEP: 21652-100</Text>
+          <Text style={styles.dado}>{this.state.endereco}</Text>
+          <Text style={styles.dado}>{this.state.cidade}</Text>
+          <Text style={styles.dado}>Estado: {this.state.estado}</Text>
+          <Text style={styles.dado}>CEP: {this.state.cep}</Text>
+          </View>
+        </ScrollView>
       </View>
-      </ScrollView>
-    </View>
-    );
+      );
+    }
   }
 }

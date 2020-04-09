@@ -1,7 +1,10 @@
 import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
-    container: {
+      fundo: {
+        backgroundColor: '#ffffff'
+      },
+      container: {
         flex: 1,
       },
       teste: {

@@ -11,6 +11,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { isSignedIn } from '../../services/auth';
 
 export default class HomeScreen extends Component {
+
+    static navigationOptions = {
+        title: 'Home',
+    };
     
     constructor(props){
         super(props);
@@ -18,7 +22,7 @@ export default class HomeScreen extends Component {
     }
 
     componentDidMount(){
-        
+        console.log(this.props.nav);
         AsyncStorage.getItem('Token').then(
             res => {
                 //console.log(res);
@@ -74,12 +78,11 @@ export default class HomeScreen extends Component {
 
     signOut = async () => {
 
-        await AsyncStorage.removeItem("Token")
-        await AsyncStorage.removeItem("User")
+        //await AsyncStorage.removeItem("Token")
+        //await AsyncStorage.removeItem("User")
         //GoogleFit.disconnect();
-        AsyncStorage.getItem('Token').then( res => {
-            this.props.navigation.navigate('LoadHome');
-        })
+        AsyncStorage.clear();
+        this.props.navigation.navigate('LoadHome');
     }
     
     navigate(route){

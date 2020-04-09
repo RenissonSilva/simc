@@ -4,6 +4,9 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 
 
 export default class RelativeScreen extends Component {
+  static navigationOptions = {
+    title: 'Relative',
+  };
   render() {
     return (
     <View style={styles.container}>
