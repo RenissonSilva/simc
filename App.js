@@ -5,8 +5,6 @@ import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import { createStackNavigator} from 'react-navigation-stack';
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import Choice from './screens/Choice';
-import PatientHome from './screens/Patient/PatientHome';
-import RelativeHome from './screens/Relative/RelativeHome';
 import ChoiceRegis from './screens/Register/ChoiceRegis';
 import PatientRegister from './screens/Register/PatientRegister1';
 import PatientRegister2 from './screens/Register/PatientRegister2';
@@ -16,13 +14,24 @@ import DoctorRegister from './screens/Register/DoctorRegister';
 import Login from './screens/Login';
 import LoadHome from './screens/LoadHome';
 import Home from './screens/HomeScreen';
-import { isSignedIn } from './services/auth';
 import {AsyncStorage} from '@react-native-community/async-storage';
-import HomeScreen from './screens/HomeComponent/HomeScreen';
-import ProfileScreen from './screens/HomeComponent/ProfileScreen';
-import ChatScreen from './screens/HomeComponent/ChatSreen';
+
+//Patient
+import HomeScreen from './screens/Patient/HomeScreen';
+import ChatScreen from './screens/Patient/PatientChat';
 import RelativeScreen from './screens/HomeComponent/RelativeScreen';
 
+//Doctor
+import DoctorHome from './screens/Doctor/DoctorHome';
+import DoctorChat from './screens/Doctor/ChatScreen';
+
+
+//Relative
+import RelativeHome from './screens/Relative/RelativeHome';
+import RelativeChat from './screens/Relative/ChatScreen';
+
+
+import ProfileScreen from './screens/HomeComponent/ProfileScreen';
 
 export default class App extends React.Component {
 
@@ -32,8 +41,51 @@ export default class App extends React.Component {
     );
   }
 }
+const relative = createMaterialTopTabNavigator(
+  {
+    RelativeHome : RelativeHome,
+    ProfileScreen: ProfileScreen,
+    RelativeChat: RelativeChat,
+  },
+  {
+    tabBarOptions: {
+      labelStyle: {
+        fontSize: 16,
+      },
+      tabStyle: {
+        width: 100,
+      },
+      style: {
+        backgroundColor: '#FF5F54',
+      },
+    },
+    swipeEnabled: true
+  }
+  
+)
+const doctor = createMaterialTopTabNavigator(
+  {
+    DoctorHome: DoctorHome,
+    ProfileScreen: ProfileScreen,
+    DoctorChat: DoctorChat,
+  },
+  {
+    tabBarOptions: {
+      labelStyle: {
+        fontSize: 16,
+      },
+      tabStyle: {
+        width: 100,
+      },
+      style: {
+        backgroundColor: '#FF5F54',
+      },
+    },
+    swipeEnabled: true
+  }
+);
 
-const Stack = createMaterialTopTabNavigator(
+const patient = createMaterialTopTabNavigator(
   {
     HomeScreen: HomeScreen,
     ProfileScreen: ProfileScreen,
@@ -57,6 +109,7 @@ const Stack = createMaterialTopTabNavigator(
   }
 );
 
+
 const RootStack = createStackNavigator(
   {
     Home: Home,
@@ -79,7 +132,10 @@ const Root = createSwitchNavigator(
   {
     LoadHome: LoadHome,
     RootStack: RootStack,
-    Stack: Stack,
+    patient: patient,
+    doctor: doctor,
+    relative: relative,
+
   },
   {
     initialRouteName: 'LoadHome'
