@@ -39,14 +39,13 @@ export default class LoadHome extends Component {
             .then( 
                 res => {
                     if(res.data){
-                        //console.log(res)
-                        this.props.navigation.navigate('Stack')
+                        this.props.navigation.navigate(user)
                     }
                 }
                 )
                 .catch(
                     error => {
-                        console.log("LoadHome",error.toJSON())
+                        //console.log("LoadHome",error.toJSON())
                         http.post('/'+user+'/logout',{},{
                             headers: {
                                 'Accept': 'application/json',
