@@ -22,12 +22,12 @@ import ChatScreen from './screens/Patient/PatientChat';
 import RelativeScreen from './screens/HomeComponent/RelativeScreen';
 
 //Doctor
-import DoctorHome from './screens/Doctor/DoctorHome';
+import DoctorHome from './screens/Doctor/HomeScreen';
 import DoctorChat from './screens/Doctor/ChatScreen';
 
 
 //Relative
-import RelativeHome from './screens/Relative/RelativeHome';
+import RelativeHome from './screens/Relative/HomeScreen';
 import RelativeChat from './screens/Relative/ChatScreen';
 
 
