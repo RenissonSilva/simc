@@ -4,11 +4,12 @@ import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Animatable from 'react-native-animatable';
 import GoogleFit, { Scopes } from 'react-native-google-fit';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import * as RNLocalize from "react-native-localize";
 import AsyncStorage from '@react-native-community/async-storage';
 import Loading from  '../Loading';
 import http from '../../services/axiosconf';
+import CompLineChart from './CompLineChart';
 
 export default class HomeScreen extends Component {
 
@@ -18,11 +19,11 @@ export default class HomeScreen extends Component {
     
     constructor(props){
         super(props);
-        this.state = {authorize: false, heartdata: '', date: '', loading: false, user: '', token: ''}
+        this.state = {authorize: false, heartdata: '', date_end: '', loading: false, user: '', token: '', date_start: '2017-01-01T00:00:17.971Z', data_line_chart: [] }
+
     }
 
     componentDidMount(){
-        console.log(this.props.nav);
         AsyncStorage.getItem('Token').then(
             res => {
                 //console.log(res);
@@ -45,22 +46,26 @@ export default class HomeScreen extends Component {
             GoogleFit.authorize(options)
             .then(authResult => {
             if (authResult.success) {
-            //GoogleFit.openFit()
-                this.setState({date: moment(new Date()).tz(RNLocalize.getTimeZone()).format() })
+                    //GoogleFit.openFit()
+                    this.setState({authorize: authResult.success})
+                    this.setState({date_end: moment(new Date()).tz( RNLocalize.getTimeZone() ).format() });
+
                 const options = {
                     startDate: "2017-01-01T00:00:17.971Z", // required
-                    endDate: this.state.date, // required
+                    endDate: this.state.date_end, // required
                 }
                 const callback = ((error, response) => {
-                //console.log(error, response);
-                if(response){
-                    this.setState({authorize: authResult.success})
-                    this.setState({heartdata: response[0]})
-                    //console.log(this.state);
-                }
-            });
-            
-            GoogleFit.getHeartRateSamples(options, callback);
+                    if(response){
+                        for( let i = 0; i < response.length ; i++){
+                            this.setState({
+                                data_line_chart : [...this.state.data_line_chart, response[i].value]
+                            })
+                        }
+                        this.setState({heartdata: response[0]})
+                    }
+                });
+
+                GoogleFit.getHeartRateSamples(options, callback);
             
             } else {
                 //dispatch("AUTH_DENIED", authResult.message);
@@ -68,7 +73,7 @@ export default class HomeScreen extends Component {
         })
         .catch((error) => {
             //dispatch("AUTH_ERROR");
-            //console.log(error);
+            console.log('error',error);
         })
     }
 
@@ -102,6 +107,26 @@ export default class HomeScreen extends Component {
 
     }
 
+    getHeartData = () => {
+        const options = {
+            startDate: "2017-01-01T00:00:17.971Z", // required
+            endDate: this.state.date_end, // required
+        }
+        const callback = ((error, response) => {
+            if(response){
+                for( let i = 0; i < response.length ; i++){
+                    this.setState({
+                        data_line_chart : [...this.state.data_line_chart, response[i].value]
+                    })
+                }
+                this.setState({heartdata: response[0]})
+            }
+        });
+        if(this.state.authorize){
+            GoogleFit.getHeartRateSamples(options, callback);
+        }
+
+    }
     
     navigate(route){
         this.props.navigation.navigate(route);
@@ -117,7 +142,7 @@ export default class HomeScreen extends Component {
             return (
                 <View style={styles.container}>
             
-                <TouchableOpacity style={styles.btn} onPress={ () => this.state.authorize ? GoogleFit.getHeartRateSamples( {startDate: "2017-01-01T00:00:17.971Z", endDate: this.state.date,} , (error, res ) => { this.setState({heartdata: res[0]}) }) : console.log('Google fit error authorize')  }>
+                <TouchableOpacity style={styles.btn} onPress={ this.getHeartData }>
                         <Text style={styles.btnText}>Batimento cardíaco</Text>
                         { this.state.authorize &&
                             <View style={styles.teste}>
@@ -140,7 +165,10 @@ export default class HomeScreen extends Component {
                         </Animatable.Text>
                     </TouchableOpacity>
                     <Text style={styles.monitora}>Monitoramento dos últimos 30 minutos</Text>
-
+                    { this.state.data_line_chart && (
+                        <CompLineChart data={ (this.state.data_line_chart.length > 0 ) ? this.state.data_line_chart : [0,0,0,0] }/>  )
+                    }
+                    
                     <TouchableOpacity
                         onPress = { this.signOut }>
                         <Text style = {styles.submitText}> Sair </Text>
