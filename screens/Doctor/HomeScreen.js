@@ -1,8 +1,7 @@
 import React from 'react';
 
-import { View, Text } from 'react-native';
-
-// import { Container } from './styles';
+import { View, Text, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export default class DoctorHome extends React.Component {
 
@@ -19,6 +18,14 @@ export default class DoctorHome extends React.Component {
     return (
         <View>
             <Text>DoctorHome</Text>
+            <TouchableOpacity
+              onPress={ () => this.props.navigation.navigate('CreateHandBook')}
+            >
+              <Icon
+                name="add"
+                size={70}
+              />
+            </TouchableOpacity>
         </View>
     );
   }
