@@ -25,6 +25,8 @@ import RelativeScreen from './screens/HomeComponent/RelativeScreen';
 import DoctorHome from './screens/Doctor/HomeScreen';
 import DoctorChat from './screens/Doctor/ChatScreen';
 
+//HandBook
+import CreateHandBook from './screens/HandBook/CreateHandBook';
 
 //Relative
 import RelativeHome from './screens/Relative/HomeScreen';
@@ -121,6 +123,7 @@ const RootStack = createStackNavigator(
     RelativeRegister: RelativeRegister,
     RelativeRegister2: RelativeRegister2,
     DoctorRegister: DoctorRegister,
+    CreateHandBook: CreateHandBook,
     Login: Login,
   }
 );
