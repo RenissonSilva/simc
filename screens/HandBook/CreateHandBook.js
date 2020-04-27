@@ -1,5 +1,5 @@
 import React, {Fragment, useEffect, useState} from 'react';
-import { View,ScrollView, Text, TextInput, TouchableOpacity, Picker} from 'react-native';
+import { View,ScrollView, Text, TextInput, TouchableOpacity, Picker, FlatList} from 'react-native';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import {TextInputMask} from 'react-native-masked-text';
@@ -19,6 +19,9 @@ export default function HandBook() {
     const [user, setUser ] = useState(true);
     const [token, setToken ] = useState(true);
 
+    const [ patients, setPatients] = useState(0);
+    const [selectItems, setSelectItems] =useState(true);
+
     
     async function getPatients(user, token) {
         await http.get('/' + user + '/patient',{
@@ -28,10 +31,11 @@ export default function HandBook() {
             }
         })
         .then( res => {
-            console.log(res.data);
+            setPatients(res.data)
+            console.log(patients);
         })
         .catch(error => {
-            console.log(error);
+            console.log('Error get Users',error);
         })
     }
 
@@ -45,9 +49,13 @@ export default function HandBook() {
                 //console.log("user: ",user,"token: ", token);
             })
             .catch((error) => {
-                console.log(error)
+                console.log('Error Get AsyncStorage',error)
             })
-            getPatients(user, token);
+            console.log(patients)
+            if(!patients){
+                getPatients(user, token);
+            }
+            console.log(selectItems)    
 
     })
 
@@ -140,6 +148,12 @@ export default function HandBook() {
                         value={values.nome}
                         onBlur={() => setFieldTouched('nome')}
                         placeholder="Ex. Claudia"
+                    />
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={handleChange('nome')}
+                        value={values.nome}
+                        onBlur={() => setFieldTouched('nome')}
                     />
                     <View>
                         {touched.nome && errors.nome && (

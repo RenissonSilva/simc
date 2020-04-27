@@ -34,6 +34,7 @@ import RelativeChat from './screens/Relative/ChatScreen';
 
 
 import ProfileScreen from './screens/HomeComponent/ProfileScreen';
+import SearchUser from './screens/HomeComponent/SearchUser';
 
 export default class App extends React.Component {
 
@@ -124,6 +125,7 @@ const RootStack = createStackNavigator(
     RelativeRegister2: RelativeRegister2,
     DoctorRegister: DoctorRegister,
     CreateHandBook: CreateHandBook,
+    SearchUser : SearchUser,
     Login: Login,
   }
 );

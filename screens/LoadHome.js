@@ -24,7 +24,7 @@ export default class LoadHome extends Component {
         });
 
         AsyncStorage.multiGet(['Token','User']).then( evt => {
-            this.checkToken(evt[1][1], evt[0][1])
+            this.checkToken(evt[1][1], evt[0][1]);
             //(evt[0][1] && evt[1][1] && this.state.isConnected && this.state.valited ) ? this.props.navigation.navigate('PatientHome') : this.props.navigation.navigate('Home')
         })
     }
