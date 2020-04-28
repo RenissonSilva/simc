@@ -3,16 +3,21 @@ import { View, Text, TextInput, FlatList, ActivityIndicator } from 'react-native
 import AsyncStorage from '@react-native-community/async-storage';
 import http from '../../services/axiosconf';
 import { ListItem, SearchBar } from 'react-native-elements';
+import Loading from '../Loading';
 
 SearchUser.navigationOptions={
-    title: 'Search'
+    title: 'Search',
+    headerStyle: {backgroundColor: '#FF5F54'},
+    headerTintColor: 'white',
 }
 
 export default function SearchUser(props) {
 
     const [user, setUser ] = useState(true);
+    const [loading, setLoading ] = useState(false);
     const [token, setToken ] = useState(true);
     const [ patients, setPatients] = useState(0);
+    const [ patientsBackup, setPatientsBackup ] = useState(0);
     const [ valueInput, setValueInput] = useState(true);
 
     async function getPatients(user, token) {
@@ -23,8 +28,9 @@ export default function SearchUser(props) {
             }
         })
         .then( res => {
+            setLoading(false);
             setPatients(res.data)
-            //console.log(res.data);
+            setPatientsBackup(res.data);
         })
         .catch(error => {
             console.log('Error get Users',error);
@@ -32,16 +38,31 @@ export default function SearchUser(props) {
     }
 
     useEffect(() => {
-        AsyncStorage.multiGet(['Token', 'User'])
+        if(!patients){
+            setLoading(true);
+            AsyncStorage.multiGet(['Token', 'User'])
             .then( res => {
                 setUser(res[1][1])
                 setToken(res[0][1])
             })
             .catch(error => {
                 console.log('Error Get user, Token', error);
-        })
-        getPatients(user,token);
+            })
+            getPatients(user,token);
+        }
     });
+
+    function searchFilterFunction(text) {
+        
+        setValueInput(text);
+        const newData = patientsBackup.filter(item => {
+          const itemData = `${item.name.toUpperCase()}`;
+          const textData = text.toUpperCase();
+    
+          return itemData.indexOf(textData) > -1;
+        });
+        setPatients(newData);
+    };
 
     function renderSeparator() {
         return (
@@ -54,28 +75,37 @@ export default function SearchUser(props) {
             }}
           />
         );
-      };
+    };
+    if(loading){
+        return(
+            <Loading/>
+        )
+    }
 
     return (
         <View style={{ flex: 1 }}>
-            <SearchBar
-                placeholder="Type Here..."
-                lightTheme
-                round
-                onChangeText={text => setValueInput(text)}
-                autoCorrect={false}
-                value={valueInput}
-            />
+            
             <FlatList
                 data={patients}
                 renderItem={({ item }) => (
                 <ListItem
                     //leftAvatar={require('../../images/sad.png')}
                     title={`${item.name}`}
+                    //onPress={props.navigate('CreateHandBook')}
                 />
                 )}
                 keyExtractor={item => item.id}
                 ItemSeparatorComponent={renderSeparator}
+                ListHeaderComponent={
+                    <SearchBar
+                        placeholder="Type Here..."
+                        lightTheme
+                        round
+                        onChangeText={text => searchFilterFunction(text)}
+                        autoCorrect={false}
+                        value={valueInput}
+                    />
+                }
             />
         </View>
     );
