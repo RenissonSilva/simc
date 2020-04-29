@@ -43,12 +43,12 @@ static navigationOptions = {
         AsyncStorage.setItem('Token', this.state.token);
         AsyncStorage.setItem('User', this.state.user);
       }catch(e){
-        console.log(e);
+        //console.log(e);
       }
       this.next(this.state.token);
     })
     .catch(error => {
-      console.log(error)
+      //console.log(error)
       this.setState({dataerror: 'Email ou Senha nao são validos'})
       this.setState({loading: false})
     })
