@@ -3,6 +3,7 @@ import { View, Text, TextInput, FlatList, ActivityIndicator } from 'react-native
 import AsyncStorage from '@react-native-community/async-storage';
 import http from '../../services/axiosconf';
 import { ListItem, SearchBar } from 'react-native-elements';
+//import { useNavigation } from '@react-navigation/native';
 import Loading from '../Loading';
 
 SearchUser.navigationOptions={
@@ -11,7 +12,9 @@ SearchUser.navigationOptions={
     headerTintColor: 'white',
 }
 
-export default function SearchUser(props) {
+export default function SearchUser({navigation}) {
+
+    //const navigation = useNavigation();
 
     const [user, setUser ] = useState(true);
     const [loading, setLoading ] = useState(false);
@@ -84,14 +87,13 @@ export default function SearchUser(props) {
 
     return (
         <View style={{ flex: 1 }}>
-            
             <FlatList
                 data={patients}
                 renderItem={({ item }) => (
                 <ListItem
                     //leftAvatar={require('../../images/sad.png')}
                     title={`${item.name}`}
-                    //onPress={props.navigate('CreateHandBook')}
+                    onPress={() => navigation.navigate(navigation.state.params.nextPage, {userName: item.name , userId: item.id})}
                 />
                 )}
                 keyExtractor={item => item.id}
