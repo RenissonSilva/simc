@@ -14,7 +14,7 @@ import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 
 import styles from './style';
 
-export default function HandBook() {
+export default function HandBook({navigation}) {
 
     const [user, setUser ] = useState(true);
     const [token, setToken ] = useState(true);
@@ -22,25 +22,8 @@ export default function HandBook() {
     const [ patients, setPatients] = useState(0);
     const [selectItems, setSelectItems] =useState(true);
 
-    
-    async function getPatients(user, token) {
-        await http.get('/' + user + '/patient',{
-            headers: {
-                'Accept': 'aplication/json',
-                'Authorization': token
-            }
-        })
-        .then( res => {
-            setPatients(res.data)
-            console.log(patients);
-        })
-        .catch(error => {
-            console.log('Error get Users',error);
-        })
-    }
-
-
     useEffect(() => {
+        //console.log(navigation.state.params.userId);
         AsyncStorage.multiGet(['Token','User'])
             .then((res) => {
                 //console.log(res[0][1], res[1][1])
@@ -51,11 +34,7 @@ export default function HandBook() {
             .catch((error) => {
                 console.log('Error Get AsyncStorage',error)
             })
-            console.log(patients)
-            if(!patients){
-                getPatients(user, token);
-            }
-            console.log(selectItems)    
+            
 
     })
 
@@ -142,19 +121,9 @@ export default function HandBook() {
         }) => (
             <ScrollView style={styles.scrollView}>
                     <Text style={styles.textInput}>Nome</Text>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={handleChange('nome')}
-                        value={values.nome}
-                        onBlur={() => setFieldTouched('nome')}
-                        placeholder="Ex. Claudia"
-                    />
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={handleChange('nome')}
-                        value={values.nome}
-                        onBlur={() => setFieldTouched('nome')}
-                    />
+                    { navigation.state.params.userName && (
+                        <Text>{navigation.state.params.userName}</Text>
+                    )}
                     <View>
                         {touched.nome && errors.nome && (
                             <Text style={styles.validationError}>{errors.nome}</Text>
@@ -337,7 +306,7 @@ Cadastrar_Handbook = async (values) =>{
         blood_pressure: values.pressao_sanguinea,
         hgt: values.hgt,
         temperature: values.temperatura,
-        patient_id:'',
+        patient_id: navigation.state.params.userId,
         doctor_id: '',    
 
 
