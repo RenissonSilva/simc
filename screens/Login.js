@@ -42,7 +42,6 @@ static navigationOptions = {
     .then(res => {this.state.dataresponse = res.data  
       this.state.token = res.data.token_type + " " + res.data.access_token
       this.setState({userid:  ""+res.data.user.id.toString() })
-      console.log('UserID', this.state.userid);
       try{
         AsyncStorage.setItem('Token', this.state.token);
         AsyncStorage.setItem('User', this.state.user);
@@ -50,7 +49,7 @@ static navigationOptions = {
       }catch(e){
         console.log('Error set async login',e);
       }
-      //this.next(this.state.token);
+      this.next(this.state.token);
     })
     .catch(error => {
       //console.log(error)
