@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Loading from '../screens/Loading';
 import {Formik} from 'formik';
 import * as yup from 'yup';
+import http  from '../services/axiosconf';
 
 export default class Login extends Component {
 
@@ -20,6 +21,7 @@ static navigationOptions = {
   constructor(props) {
     super(props);
     this.state = {user: ''}
+    this.state = {userid: ''}
     this.state = {token: ''};
     this.state = {data: null};
     this.state = {dataerror: null};
@@ -33,19 +35,22 @@ static navigationOptions = {
 
   signIn = values => {
     this.setState({loading: true})
-    return axios.post('https://apisimc.herokuapp.com/api/'+this.state.user+'/login?',querystring.stringify({
+    return http.post('/'+this.state.user+'/login?',querystring.stringify({
       email: values.email,
       password: values.password,
     }))
     .then(res => {this.state.dataresponse = res.data  
       this.state.token = res.data.token_type + " " + res.data.access_token
+      this.setState({userid:  ""+res.data.user.id.toString() })
+      console.log('UserID', this.state.userid);
       try{
         AsyncStorage.setItem('Token', this.state.token);
         AsyncStorage.setItem('User', this.state.user);
+        AsyncStorage.setItem('UserId', res.data.user.id + '' );
       }catch(e){
-        //console.log(e);
+        console.log('Error set async login',e);
       }
-      this.next(this.state.token);
+      //this.next(this.state.token);
     })
     .catch(error => {
       //console.log(error)
