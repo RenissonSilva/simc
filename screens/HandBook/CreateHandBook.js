@@ -18,18 +18,17 @@ export default function HandBook({navigation}) {
 
     const [user, setUser ] = useState(true);
     const [token, setToken ] = useState(true);
+    const [userid, setUserId] = useState();
 
     const [ patients, setPatients] = useState(0);
     const [selectItems, setSelectItems] =useState(true);
 
     useEffect(() => {
-        //console.log(navigation.state.params.userId);
-        AsyncStorage.multiGet(['Token','User'])
+        AsyncStorage.multiGet(['Token','User','UserId'])
             .then((res) => {
-                //console.log(res[0][1], res[1][1])
                 setUser(res[1][1])
                 setToken(res[0][1])
-                //console.log("user: ",user,"token: ", token);
+                setUserId(res[2][1])
             })
             .catch((error) => {
                 console.log('Error Get AsyncStorage',error)
@@ -120,10 +119,18 @@ export default function HandBook({navigation}) {
             handleSubmit
         }) => (
             <ScrollView style={styles.scrollView}>
-                    <Text style={styles.textInput}>Nome</Text>
+                    <Text style={styles.textInput}>Nome do Paciente</Text>
                     { navigation.state.params.userName && (
                         <Text>{navigation.state.params.userName}</Text>
                     )}
+                    <Text style={styles.textInput}>Nome do Prontuario</Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={handleChange('nome')}
+                        value={values.nome}
+                        onBlur={() => setFieldTouched('nome')}
+                    />
+
                     <View>
                         {touched.nome && errors.nome && (
                             <Text style={styles.validationError}>{errors.nome}</Text>
@@ -307,7 +314,7 @@ Cadastrar_Handbook = async (values) =>{
         hgt: values.hgt,
         temperature: values.temperatura,
         patient_id: navigation.state.params.userId,
-        doctor_id: '',    
+        doctor_id: this.userid,    
 
 
     }),
