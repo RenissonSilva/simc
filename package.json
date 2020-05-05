@@ -11,10 +11,9 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.8.1",
-    "@react-native-community/masked-view": "^0.1.6",
+    "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/netinfo": "^5.8.0",
     "@react-navigation/material-top-tabs": "^5.1.0",
-    "@react-navigation/native": "^5.0.8",
     "@react-navigation/stack": "^5.1.0",
     "axios": "^0.19.2",
     "formik": "^2.1.4",
@@ -28,15 +27,15 @@
     "react-native-autogrow-textinput": "^5.3.0",
     "react-native-chart-kit": "^5.4.0",
     "react-native-elements": "^1.2.7",
-    "react-native-gesture-handler": "^1.6.0",
+    "react-native-gesture-handler": "^1.6.1",
     "react-native-google-fit": "^0.10.0",
     "react-native-loading-spinner-overlay": "^1.1.0",
     "react-native-localize": "^1.3.3",
     "react-native-masked-text": "^1.13.0",
-    "react-native-reanimated": "^1.7.0",
+    "react-native-reanimated": "^1.8.0",
     "react-native-rename": "^2.4.1",
     "react-native-safe-area-context": "^0.7.3",
-    "react-native-screens": "^2.1.0",
+    "react-native-screens": "^2.7.0",
     "react-native-svg": "^12.1.0",
     "react-native-tab-view": "^2.13.0",
     "react-native-timezone": "^1.0.3",
@@ -56,7 +55,8 @@
     "eslint": "^6.5.1",
     "jest": "^24.9.0",
     "metro-react-native-babel-preset": "^0.56.0",
-    "react-test-renderer": "16.9.0"
+    "react-test-renderer": "16.9.0",
+    "typescript": "^3.8.3"
   },
   "jest": {
     "preset": "react-native"
