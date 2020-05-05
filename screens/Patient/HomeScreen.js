@@ -78,35 +78,6 @@ export default class HomeScreen extends Component {
     }
 
 
-    signOut = async () => {
-        this.setState({loading: true});
-
-        await AsyncStorage.multiGet(['Token','User']).then( (evt) => {
-            this.setState({token : evt[0][1]})
-            this.setState({user : evt[1][1]})
-        })
-
-        http.post('/'+this.state.user+'/logout',{},{
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': this.state.token
-            }
-        }).then(res => {
-            if(res.data){
-                AsyncStorage.clear();
-                GoogleFit.disconnect();
-                this.props.navigation.navigate('LoadHome');
-            }
-        })
-        .catch(
-            error => {
-                console.log('error signout', error);
-            }
-        )
-
-
-    }
-
     getHeartData = () => {
         const options = {
             startDate: "2017-01-01T00:00:17.971Z", // required
@@ -168,11 +139,6 @@ export default class HomeScreen extends Component {
                     { this.state.data_line_chart && (
                         <CompLineChart data={ (this.state.data_line_chart.length > 0 ) ? this.state.data_line_chart : [0,0,0,0] }/>  )
                     }
-                    
-                    <TouchableOpacity
-                        onPress = { this.signOut }>
-                        <Text style = {styles.submitText}> Sair </Text>
-                    </TouchableOpacity>
                 </View>
             );
 
