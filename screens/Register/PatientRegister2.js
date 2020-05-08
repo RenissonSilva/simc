@@ -215,13 +215,7 @@ export default class PatientRegister2 extends Component {
   Register(values) {
     const {params} = this.props.navigation.state;
     let cep = this.cepField.getRawValue();
-    console.log(cep);
     this.setState({cepunmasked: cep});
-    console.log(
-      moment(params.values.idade, ['DD-MM-YYYY', 'YYYY-MM-DD'])
-        .utc()
-        .format('YYYY-MM-DD'),
-    );
     if (this.state.cepunmasked) {
       if (params) {
         http

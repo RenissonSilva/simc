@@ -28,7 +28,6 @@ export default class ProfileScreen extends Component {
       this.setState({user: evt[1][1]})
       this.setState({token: evt[0][1]})
     })
-    console.log(this.state);
     
     http.get('/'+this.state.user+'/detail', {
       headers: {
