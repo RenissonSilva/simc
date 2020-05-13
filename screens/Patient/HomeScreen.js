@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Loading from  '../Loading';
 import http from '../../services/axiosconf';
 import CompLineChart from './CompLineChart';
+import querystring from 'query-string';
 
 export default class HomeScreen extends Component {
 
@@ -19,31 +20,36 @@ export default class HomeScreen extends Component {
     
     constructor(props){
         super(props);
-        this.state = {authorize: false, heartdata: '', date_end: '', loading: false, user: '', token: '', date_start: '2017-01-01T00:00:17.971Z', data_line_chart: [] }
+        this.state = {authorize: false, heartdata: '', date_end: '', loading: false, user: '', token: '', date_start: '2017-01-01T00:00:17.971Z', data_line_chart: [], token: '', user: '', userid: '' }
 
     }
 
     componentDidMount(){
-        AsyncStorage.getItem('Token').then(
+        AsyncStorage.multiGet(['Token', 'User','UserId']).then(
             res => {
-                //console.log(res);
                 //console.log((res === null) ? true : false );
                 if (res !== null){
                     console.log('logado');
+                    this.setState({
+                        token: res[0][1],
+                        user: res[1][1],
+                        userid: res[2][1]
+                    })
                 }
                 else{
                     //fazer redirecionamento
                     //this.props.navigation.navigate('Home')
                 }
             }
-            )
-            const options = {
-                scopes: [
-                    Scopes.FITNESS_ACTIVITY_READ_WRITE,
-                    Scopes.FITNESS_BODY_READ_WRITE,
-                ],
-            }
-            GoogleFit.authorize(options)
+        )
+        //.catch( error => console.log(error) ) 
+        const options = {
+            scopes: [
+                Scopes.FITNESS_ACTIVITY_READ_WRITE,
+                Scopes.FITNESS_BODY_READ_WRITE,
+            ],
+        }
+        GoogleFit.authorize(options)
             .then(authResult => {
             if (authResult.success) {
                     //GoogleFit.openFit()
@@ -61,7 +67,28 @@ export default class HomeScreen extends Component {
                                 data_line_chart : [...this.state.data_line_chart, response[i].value]
                             })
                         }
-                        this.setState({heartdata: response[0]})
+                        this.setState({heartdata: response[response.length - 1 ]})
+                        //console.log(moment(response[response.length - 1].endDate).tz( RNLocalize.getTimeZone() ).format('YYYY-MM-DD hh:mm:ss'));
+                        
+                        if(this.state.user && this.state.token){
+                            http.post('/'+ this.state.user + '/register/heart',querystring.stringify({
+                                patient_id: this.state.userid,
+                                date_measurement: moment(response[response.length - 1].endDate).tz( RNLocalize.getTimeZone() ).format('YYYY-MM-DD hh:mm:ss') ,
+                                heart: response[response.length - 1].value
+                            }),{
+                                headers:{
+                                    'Accept': 'application/json',
+                                    'Authorization': this.state.token
+                                }
+                            })
+                            .then(res => {
+                                console.log(res.data)
+                            })
+                            .catch(error => {
+                                console.log(error);
+                            })
+                        }
+                        
                     }
                 });
 
@@ -80,8 +107,8 @@ export default class HomeScreen extends Component {
 
     getHeartData = () => {
         const options = {
-            startDate: "2017-01-01T00:00:17.971Z", // required
-            endDate: this.state.date_end, // required
+            startDate: "2017-01-01T00:00:17.971Z",
+            endDate: this.state.date_end, 
         }
         const callback = ((error, response) => {
             if(response){
