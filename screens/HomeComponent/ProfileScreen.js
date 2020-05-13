@@ -168,7 +168,6 @@ export default class ProfileScreen extends Component {
             source={require('../../images/profilePatient.jpg')}
           />
           <Text style={styles.nome}>{this.state.nome}</Text>
-          <Text style={styles.ano}>{this.state.datanasc}</Text>
   
           <View style={styles.containerDados}>
             <View style={styles.infoIcon}>
