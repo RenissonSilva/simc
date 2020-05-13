@@ -20,7 +20,7 @@ export default class DoctorHome extends React.Component {
             <Text>DoctorHome</Text>
             <TouchableOpacity
               onPress={ () => this.props.navigation.navigate('SearchUser',{nextPage: 'CreateHandBook'})}
-            >
+            > 
               <Icon
                 name="add"
                 size={70}
