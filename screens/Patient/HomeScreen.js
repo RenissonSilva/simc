@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styles from '../HomeComponent/style';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Animatable from 'react-native-animatable';
 import GoogleFit, { Scopes } from 'react-native-google-fit';
@@ -11,6 +11,7 @@ import Loading from  '../Loading';
 import http from '../../services/axiosconf';
 import CompLineChart from './CompLineChart';
 import querystring from 'query-string';
+import BackgroundTimer from 'react-native-background-timer';
 
 export default class HomeScreen extends Component {
 
@@ -23,7 +24,9 @@ export default class HomeScreen extends Component {
         this.state = {authorize: false, heartdata: '', date_end: '', loading: false, user: '', token: '', date_start: '2017-01-01T00:00:17.971Z', data_line_chart: [], token: '', user: '', userid: '' }
 
     }
-
+    componentWillUnmount(){
+        BackgroundTimer.stopBackgroundTimer();
+    }
     componentDidMount(){
         AsyncStorage.multiGet(['Token', 'User','UserId']).then(
             res => {
@@ -42,7 +45,6 @@ export default class HomeScreen extends Component {
                 }
             }
         )
-        //.catch( error => console.log(error) ) 
         const options = {
             scopes: [
                 Scopes.FITNESS_ACTIVITY_READ_WRITE,
@@ -60,7 +62,7 @@ export default class HomeScreen extends Component {
                     startDate: "2017-01-01T00:00:17.971Z", // required
                     endDate: this.state.date_end, // required
                 }
-                const callback = ((error, response) => {
+                const callback = ( (error, response) =>{
                     if(response){
                         for( let i = 0; i < response.length ; i++){
                             this.setState({
@@ -71,7 +73,7 @@ export default class HomeScreen extends Component {
                         //console.log(moment(response[response.length - 1].endDate).tz( RNLocalize.getTimeZone() ).format('YYYY-MM-DD hh:mm:ss'));
                         
                         if(this.state.user && this.state.token){
-                            http.post('/'+ this.state.user + '/register/heart',querystring.stringify({
+                             http.post('/'+ this.state.user + '/register/heart',querystring.stringify({
                                 patient_id: this.state.userid,
                                 date_measurement: moment(response[response.length - 1].endDate).tz( RNLocalize.getTimeZone() ).format('YYYY-MM-DD hh:mm:ss') ,
                                 heart: response[response.length - 1].value
@@ -87,12 +89,33 @@ export default class HomeScreen extends Component {
                             .catch(error => {
                                 console.log(error);
                             })
+                           http.get('/'+ this.state.user + '/register/getheart',{
+                                headers:{
+                                    'Accept': 'application/json',
+                                    'Authorization': this.state.token
+                                }
+                            })
+                            .then(res => {
+                                for(var z = 0; z < res.data.length; z++){
+                                    console.log(res.data[z].heart_rate)
+                                }
+                            })
+                            .catch(error => {
+                                console.log(error);
+                            })
+                            
                         }
                         
                     }
                 });
 
                 GoogleFit.getHeartRateSamples(options, callback);
+
+                BackgroundTimer.runBackgroundTimer(() => { 
+                    console.log('atualizando heart rate');
+                    GoogleFit.getHeartRateSamples(options, callback);
+                }, 1800000);
+                
             
             } else {
                 //dispatch("AUTH_DENIED", authResult.message);
@@ -166,6 +189,9 @@ export default class HomeScreen extends Component {
                     { this.state.data_line_chart && (
                         <CompLineChart data={ (this.state.data_line_chart.length > 0 ) ? this.state.data_line_chart : [0,0,0,0] }/>  )
                     }
+                    <ScrollView>
+
+                    </ScrollView>
                 </View>
             );
 
