@@ -3,12 +3,11 @@
 ## App monitoramento cardiaco e cadastro do prontuario
 
 
-![](/appImages/image1.png)
+<img src="/appImages/image1.png" width="50%" height="50%">  
+<img src="/appImages/image2.png" width="50%" height="50%">
 
-![](/appImages/image2.png)
+<img src="/appImages/image3.png" width="50%" height="50%">
 
-![](/appImages/image3.png)
+<img src="/appImages/image4.png" width="50%" height="50%">
 
-![](/appImages/image4.png)
-
-![](/appImages/image5.png)
+<img src="/appImages/image5.jpg" width="50%" height="50%">
