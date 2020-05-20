@@ -21,13 +21,15 @@ export default class HomeScreen extends Component {
     
     constructor(props){
         super(props);
-        this.state = {authorize: false, heartdata: '', date_end: '', loading: false, user: '', token: '', date_start: '2017-01-01T00:00:17.971Z', data_line_chart: [], token: '', user: '', userid: '' }
+        this.state = {handbooks: [],authorize: false, heartdata: '', date_end: '', loading: false, user: '', token: '', date_start: '2017-01-01T00:00:17.971Z', data_line_chart: [], token: '', user: '', userid: '' }
 
     }
     componentWillUnmount(){
         BackgroundTimer.stopBackgroundTimer();
     }
     componentDidMount(){
+        console.log('Date',moment(new Date()).tz( RNLocalize.getTimeZone() ).format() );
+        console.log('Fuso ',RNLocalize.getTimeZone() );
         AsyncStorage.multiGet(['Token', 'User','UserId']).then(
             res => {
                 //console.log((res === null) ? true : false );
@@ -63,6 +65,7 @@ export default class HomeScreen extends Component {
                     endDate: this.state.date_end, // required
                 }
                 const callback = ( (error, response) =>{
+                    console.log('error google fit',error);
                     if(response){
                         for( let i = 0; i < response.length ; i++){
                             this.setState({
@@ -70,7 +73,6 @@ export default class HomeScreen extends Component {
                             })
                         }
                         this.setState({heartdata: response[response.length - 1 ]})
-                        //console.log(moment(response[response.length - 1].endDate).tz( RNLocalize.getTimeZone() ).format('YYYY-MM-DD hh:mm:ss'));
                         
                         if(this.state.user && this.state.token){
                              http.post('/'+ this.state.user + '/register/heart',querystring.stringify({
@@ -97,15 +99,13 @@ export default class HomeScreen extends Component {
                             })
                             .then(res => {
                                 for(var z = 0; z < res.data.length; z++){
-                                    console.log(res.data[z].heart_rate)
+                                    //console.log(res.data[z].heart_rate)
                                 }
                             })
                             .catch(error => {
                                 console.log(error);
                             })
-                            
                         }
-                        
                     }
                 });
 
@@ -116,31 +116,64 @@ export default class HomeScreen extends Component {
                     GoogleFit.getHeartRateSamples(options, callback);
                 }, 1800000);
                 
+                this.getHandbook();
             
             } else {
-                //dispatch("AUTH_DENIED", authResult.message);
+                dispatch("AUTH_DENIED", authResult.message);
             }
         })
         .catch((error) => {
             //dispatch("AUTH_ERROR");
             console.log('error',error);
         })
+        
+
     }
 
+    getHandbook = () => {
+        AsyncStorage.multiGet(['Token', 'User','UserId']).then(
+            res => {
+                //console.log((res === null) ? true : false );
+                if (res !== null){
+                    console.log('logado');
+                    this.setState({
+                        token: res[0][1],
+                        user: res[1][1],
+                        userid: res[2][1]
+                    })
+                }
+            }
+        )
+        http.get('/patient/gethandbook',{
+            headers:{
+                'Accept': 'application/json',
+                'Authorization': this.state.token
+            }
+        })
+        .then(res => {
+            console.log(res.data);
+            if(res.data.length > 1){
+                for( let i = 0; i < res.data.length ; i++){
+                    this.setState({
+                        handbooks : [...this.state.handbooks, res.data[i]]
+                    })
+                }
+            }
+        })
+        .catch( error => {
+            console.log('Error get handbook',error);
+        })
+    }
 
     getHeartData = () => {
+        this.setState({date_end: moment(new Date()).tz( RNLocalize.getTimeZone() ).format() });
         const options = {
             startDate: "2017-01-01T00:00:17.971Z",
             endDate: this.state.date_end, 
         }
         const callback = ((error, response) => {
             if(response){
-                for( let i = 0; i < response.length ; i++){
-                    this.setState({
-                        data_line_chart : [...this.state.data_line_chart, response[i].value]
-                    })
-                }
-                this.setState({heartdata: response[0]})
+                this.setState({heartdata: response[response.length - 1 ] })
             }
         });
         if(this.state.authorize){
