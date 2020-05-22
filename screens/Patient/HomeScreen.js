@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styles from '../HomeComponent/style';
-import { View, StyleSheet, TouchableOpacity, Text, ScrollView } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, ScrollView, FlatList, SafeAreaView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import * as Animatable from 'react-native-animatable';
 import GoogleFit, { Scopes } from 'react-native-google-fit';
@@ -12,6 +12,8 @@ import http from '../../services/axiosconf';
 import CompLineChart from './CompLineChart';
 import querystring from 'query-string';
 import BackgroundTimer from 'react-native-background-timer';
+import ListHandBook from '../HandBook/ListHandbook';
+import { isInteger } from 'formik';
 
 export default class HomeScreen extends Component {
 
@@ -67,6 +69,10 @@ export default class HomeScreen extends Component {
                 const callback = ( (error, response) =>{
                     console.log('error google fit',error);
                     if(response){
+                        this.setState({
+                            data_line_chart : []
+                        });
+
                         for( let i = 0; i < response.length ; i++){
                             this.setState({
                                 data_line_chart : [...this.state.data_line_chart, response[i].value]
@@ -144,18 +150,25 @@ export default class HomeScreen extends Component {
                 }
             }
         )
-        http.get('/patient/gethandbook',{
+        http.get('/'+this.state.user+'/gethandbook',{
             headers:{
                 'Accept': 'application/json',
                 'Authorization': this.state.token
             }
         })
         .then(res => {
-            console.log(res.data);
+            //console.log(this.state.userid);
             if(res.data.length > 1){
                 for( let i = 0; i < res.data.length ; i++){
                     this.setState({
-                        handbooks : [...this.state.handbooks, res.data[i]]
+                        handbooks : [...this.state.handbooks, {
+                            'id':res.data[i].id.toString(),
+                            'name_handbook': res.data[i].name_handbook,
+                            'service_date': res.data[i].service_date,
+                            'doctor_id': res.data[i].doctor_id.toString(),
+                            'doctor_name': res.data[i].doctor_name,
+                            'patient_id': res.data[i].patient_id
+                        }]
                     })
                 }
             }
@@ -194,38 +207,40 @@ export default class HomeScreen extends Component {
         }
         if(!this.state.loading){
             return (
-                <View style={styles.container}>
-            
-                <TouchableOpacity style={styles.btn} onPress={ this.getHeartData }>
-                        <Text style={styles.btnText}>Batimento cardíaco</Text>
-                        { this.state.authorize &&
-                            <View style={styles.teste}>
-                                <Text style={styles.btnBpm}>{this.state.heartdata.value}</Text>
-                                <Text style={styles.btnB}>bpm</Text>
+                    <SafeAreaView style={styles.container}>
+                
+                        <TouchableOpacity style={styles.btn} onPress={ this.getHeartData }>
+                                <Text style={styles.btnText}>Batimento cardíaco</Text>
+                                { this.state.authorize &&
+                                    <View style={styles.teste}>
+                                        <Text style={styles.btnBpm}>{this.state.heartdata.value}</Text>
+                                        <Text style={styles.btnB}>bpm</Text>
+                                    </View>
+                                }
+                                <Icon name="heartbeat" size={70} color="#FF5F54" style={styles.icon} />
+                                <Animatable.Text
+                                    animation="pulse"
+                                    iterationCount={'infinite'}
+                                    direction="alternate"
+                                    style={styles.icon}>
+                                    <Icon
+                                    name="heartbeat"
+                                    size={70}
+                                    color="#FF5F54"
+                                    style={styles.icon}
+                                    />
+                                </Animatable.Text>
+                        </TouchableOpacity>
+                        <Text style={styles.monitora}>Monitoramento dos últimos 30 minutos</Text>
+                        { this.state.data_line_chart && (
+                            <View  style={styles.grafico} >
+                                <CompLineChart data={ (this.state.data_line_chart.length > 0 ) ? this.state.data_line_chart : [0,0,0,0,0] }/>  
                             </View>
-                        }
-                        <Icon name="heartbeat" size={70} color="#FF5F54" style={styles.icon} />
-                        <Animatable.Text
-                            animation="pulse"
-                            iterationCount={'infinite'}
-                            direction="alternate"
-                            style={styles.icon}>
-                            <Icon
-                            name="heartbeat"
-                            size={70}
-                            color="#FF5F54"
-                            style={styles.icon}
-                            />
-                        </Animatable.Text>
-                    </TouchableOpacity>
-                    <Text style={styles.monitora}>Monitoramento dos últimos 30 minutos</Text>
-                    { this.state.data_line_chart && (
-                        <CompLineChart data={ (this.state.data_line_chart.length > 0 ) ? this.state.data_line_chart : [0,0,0,0] }/>  )
-                    }
-                    <ScrollView>
-
-                    </ScrollView>
-                </View>
+                        )}
+                        { this.state.handbooks && (
+                                <ListHandBook data={this.state.handbooks}/>
+                        )}
+                    </SafeAreaView>
             );
 
         }
