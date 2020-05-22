@@ -1,6 +1,10 @@
 import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
+      grafico:{
+        marginTop: '3%',
+        marginLeft: '8%'
+      },
       fundo: {
         backgroundColor: '#ffffff'
       },
