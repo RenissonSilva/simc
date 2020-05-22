@@ -27,9 +27,9 @@ export default class CompLineChart extends Component {
                     height={200}
                     chartConfig={
                         {
-                            backgroundGradientFromOpacity: 0,
-                            backgroundGradientTo: "#08130D",
-                            backgroundGradientToOpacity: 0.1,
+                            backgroundGradientFromOpacity: -1,
+                            backgroundGradientTo: "#ffffff",
+                            backgroundGradientToOpacity: 1,
                             color: (opacity = 1) => `rgba(255, 95, 84, ${opacity})`,
                             strokeWidth: 2, // optional, default 3
                             barPercentage: 0.5
