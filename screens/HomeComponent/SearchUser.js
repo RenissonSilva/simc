@@ -100,7 +100,7 @@ export default function SearchUser({navigation}) {
                 ItemSeparatorComponent={renderSeparator}
                 ListHeaderComponent={
                     <SearchBar
-                        placeholder="Type Here..."
+                        placeholder="Click Aqui..."
                         lightTheme
                         round
                         onChangeText={text => searchFilterFunction(text)}
