@@ -14,6 +14,7 @@ import querystring from 'query-string';
 import BackgroundTimer from 'react-native-background-timer';
 import ListHandBook from '../HandBook/ListHandbook';
 import { isInteger } from 'formik';
+import { ListItem } from 'react-native-elements';
 
 export default class HomeScreen extends Component {
 
@@ -32,6 +33,7 @@ export default class HomeScreen extends Component {
     componentDidMount(){
         console.log('Date',moment(new Date()).tz( RNLocalize.getTimeZone() ).format() );
         console.log('Fuso ',RNLocalize.getTimeZone() );
+        this.getHandbook();
         AsyncStorage.multiGet(['Token', 'User','UserId']).then(
             res => {
                 //console.log((res === null) ? true : false );
@@ -122,7 +124,7 @@ export default class HomeScreen extends Component {
                     GoogleFit.getHeartRateSamples(options, callback);
                 }, 1800000);
                 
-                this.getHandbook();
+               
             
             } else {
                 dispatch("AUTH_DENIED", authResult.message);
@@ -135,13 +137,12 @@ export default class HomeScreen extends Component {
         
 
     }
-
-    getHandbook = () => {
-        AsyncStorage.multiGet(['Token', 'User','UserId']).then(
+ 
+    getHandbook = async ()  => {
+        await AsyncStorage.multiGet(['Token', 'User','UserId']).then(
             res => {
                 //console.log((res === null) ? true : false );
                 if (res !== null){
-                    console.log('logado');
                     this.setState({
                         token: res[0][1],
                         user: res[1][1],
@@ -150,14 +151,14 @@ export default class HomeScreen extends Component {
                 }
             }
         )
-        http.get('/'+this.state.user+'/gethandbook',{
+        await http.get('/'+this.state.user+'/gethandbook',{
             headers:{
                 'Accept': 'application/json',
                 'Authorization': this.state.token
             }
         })
         .then(res => {
-            //console.log(this.state.userid);
+            //console.log(res.data);
             if(res.data.length > 1){
                 for( let i = 0; i < res.data.length ; i++){
                     this.setState({
@@ -207,8 +208,8 @@ export default class HomeScreen extends Component {
         }
         if(!this.state.loading){
             return (
-                    <SafeAreaView style={styles.container}>
-                
+                    <ScrollView style={styles.container} contentInsetAdjustmentBehavior="automatic">
+                        <SafeAreaView>
                         <TouchableOpacity style={styles.btn} onPress={ this.getHeartData }>
                                 <Text style={styles.btnText}>Batimento cardíaco</Text>
                                 { this.state.authorize &&
@@ -238,9 +239,13 @@ export default class HomeScreen extends Component {
                             </View>
                         )}
                         { this.state.handbooks && (
+                            <View style={{marginLeft: '10%', marginRight: '10%', marginTop: '2%', marginBottom: '3%'}} >
                                 <ListHandBook data={this.state.handbooks}/>
+                            </View>
                         )}
-                    </SafeAreaView>
+                        </SafeAreaView>
+                    </ScrollView>
+
             );
 
         }
