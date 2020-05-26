@@ -1,6 +1,10 @@
 import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
+      cardlisthandbook:{
+        marginTop: '3%',
+        marginLeft: '15%'
+      },
       grafico:{
         marginTop: '3%',
         marginLeft: '8%'
