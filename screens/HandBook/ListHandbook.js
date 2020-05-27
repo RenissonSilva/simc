@@ -5,15 +5,58 @@ import style from './style';
 import { ListItem } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 import TouchableScale from 'react-native-touchable-scale';
+import http from '../../services/axiosconf';
+import AsyncStorage from '@react-native-community/async-storage';
 
-export default function ListHandbook({data}){
+export default function ListHandbook(){
 
-    const [data_handbook, setData_handbook ] = useState(true);
+    const [data_handbook, setData_handbook ] = useState(0);
+    const [user, setUser] = useState(true);
+    const [token, setToken] = useState(true);
+    const [userid, setUserId] = useState(true);
 
+    async function getHandbook(){
+      await AsyncStorage.multiGet(['Token', 'User','UserId']).then(
+        res => {
+            if(res !== null){
+              setToken(res[0][1]);
+              setUser(res[1][1]);
+              setUserId(res[2][1]);
+            }
+        }
+      )
+
+      await http.get('/'+user+'/gethandbook',{
+        headers:{
+            'Accept': 'application/json',
+            'Authorization': token
+        }
+      })
+      .then(res => {
+        var array_handbook = [];
+          if(res.data.length > 1){
+            for( let i = 0; i < res.data.length ; i++){
+              array_handbook = [...array_handbook, {
+                'id':res.data[i].id.toString(),
+                'name_handbook': res.data[i].name_handbook,
+                'service_date': res.data[i].service_date,
+                'doctor_id': res.data[i].doctor_id.toString(),
+                'doctor_name': res.data[i].doctor_name,
+                'patient_id': res.data[i].patient_id
+              }]
+            }
+            setData_handbook(array_handbook);
+        }
+      })
+      .catch( error => {
+          console.log('Error get handbook',error);
+      })
+
+    }
+      
     useEffect(() => {
-        if(data.length != 0){
-            setData_handbook(data);
-            console.log(data_handbook);
+        if(data_handbook == 0){
+            getHandbook();
         } 
     })
     function renderSeparator() {
