@@ -11,8 +11,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 export default function ListHandbook(){
 
     const [data_handbook, setData_handbook ] = useState(0);
-    const [user, setUser] = useState(true);
-    const [token, setToken] = useState(true);
+    const [user, setUser] = useState(false);
+    const [token, setToken] = useState(false);
     const [userid, setUserId] = useState(true);
 
     async function getHandbook(){
@@ -26,32 +26,36 @@ export default function ListHandbook(){
         }
       )
 
-      await http.get('/'+user+'/gethandbook',{
-        headers:{
-            'Accept': 'application/json',
-            'Authorization': token
-        }
-      })
-      .then(res => {
-        var array_handbook = [];
-          if(res.data.length > 1){
-            for( let i = 0; i < res.data.length ; i++){
-              array_handbook = [...array_handbook, {
-                'id':res.data[i].id.toString(),
-                'name_handbook': res.data[i].name_handbook,
-                'service_date': res.data[i].service_date,
-                'doctor_id': res.data[i].doctor_id.toString(),
-                'doctor_name': res.data[i].doctor_name,
-                'patient_id': res.data[i].patient_id
-              }]
-            }
-            setData_handbook(array_handbook);
-        }
-      })
-      .catch( error => {
-          console.log('Error get handbook',error);
-      })
+      if(token && user){
+        
+        await http.get('/'+user+'/gethandbook',{
+          headers:{
+              'Accept': 'application/json',
+              'Authorization': token
+          }
+        })
+        .then(res => {
+          console.log(res)
+          var array_handbook = [];
+            if(res.data.length > 1){
+              for( let i = 0; i < res.data.length ; i++){
+                array_handbook = [...array_handbook, {
+                  'id':res.data[i].id.toString(),
+                  'name_handbook': res.data[i].name_handbook,
+                  'service_date': res.data[i].service_date,
+                  'doctor_id': res.data[i].doctor_id.toString(),
+                  'doctor_name': res.data[i].doctor_name,
+                  'patient_id': res.data[i].patient_id
+                }]
+              }
+              setData_handbook(array_handbook);
+          }
+        })
+        .catch( error => {
+            console.log('Error get handbook',error);
+        })
 
+      }
     }
       
     useEffect(() => {
