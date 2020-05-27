@@ -35,20 +35,33 @@ export default function ListHandbook(){
           }
         })
         .then(res => {
-          console.log(res)
           var array_handbook = [];
             if(res.data.length > 1){
-              for( let i = 0; i < res.data.length ; i++){
-                array_handbook = [...array_handbook, {
-                  'id':res.data[i].id.toString(),
-                  'name_handbook': res.data[i].name_handbook,
-                  'service_date': res.data[i].service_date,
-                  'doctor_id': res.data[i].doctor_id.toString(),
-                  'doctor_name': res.data[i].doctor_name,
-                  'patient_id': res.data[i].patient_id
-                }]
+              if(user == 'patient'){
+                for( let i = 0; i < res.data.length ; i++){
+                  array_handbook = [...array_handbook, {
+                    'id':res.data[i].id.toString(),
+                    'name_handbook': res.data[i].name_handbook,
+                    'service_date': res.data[i].service_date,
+                    'doctor_id': res.data[i].doctor_id.toString(),
+                    'doctor_name': res.data[i].doctor_name,
+                    'patient_id': res.data[i].patient_id
+                  }]
+                }
               }
-              setData_handbook(array_handbook);
+              else{
+                for( let i = 0; i < res.data.length ; i++){
+                  array_handbook = [...array_handbook, {
+                    'id':res.data[i].id.toString(),
+                    'name_handbook': res.data[i].name_handbook,
+                    'service_date': res.data[i].service_date,
+                    'doctor_id': res.data[i].doctor_id.toString(),
+                    'patient_name': res.data[i].patient_name,
+                    'patient_id': res.data[i].patient_id
+                  }]
+                }
+              }
+                setData_handbook(array_handbook);
           }
         })
         .catch( error => {
@@ -97,7 +110,7 @@ export default function ListHandbook(){
             }}
             ViewComponent={LinearGradient}
             title={`Nome do Prontuario: ${item.name_handbook}`}
-            subtitle={`Doutor: ${item.doctor_name}        Data: ${moment(item.service_date).format('DD/MM/YYYY').toString()}`}
+            subtitle={(user == 'patient')?`Doutor: ${item.doctor_name}        Data: ${moment(item.service_date).format('DD/MM/YYYY').toString()}`:`Paciente: ${item.patient_name}       Data: ${moment(item.service_date).format('DD/MM/YYYY').toString()}` }
             titleStyle={{ color: 'white', fontWeight: 'bold' }}
             subtitleStyle={{ color: 'white' }}
             chevron={{ color: 'white' }}
