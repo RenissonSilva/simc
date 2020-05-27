@@ -33,7 +33,6 @@ export default class HomeScreen extends Component {
     componentDidMount(){
         console.log('Date',moment(new Date()).tz( RNLocalize.getTimeZone() ).format() );
         console.log('Fuso ',RNLocalize.getTimeZone() );
-        this.getHandbook();
         AsyncStorage.multiGet(['Token', 'User','UserId']).then(
             res => {
                 //console.log((res === null) ? true : false );
@@ -138,47 +137,6 @@ export default class HomeScreen extends Component {
 
     }
  
-    getHandbook = async ()  => {
-        await AsyncStorage.multiGet(['Token', 'User','UserId']).then(
-            res => {
-                //console.log((res === null) ? true : false );
-                if (res !== null){
-                    this.setState({
-                        token: res[0][1],
-                        user: res[1][1],
-                        userid: res[2][1]
-                    })
-                }
-            }
-        )
-        await http.get('/'+this.state.user+'/gethandbook',{
-            headers:{
-                'Accept': 'application/json',
-                'Authorization': this.state.token
-            }
-        })
-        .then(res => {
-            //console.log(res.data);
-            if(res.data.length > 1){
-                for( let i = 0; i < res.data.length ; i++){
-                    this.setState({
-                        handbooks : [...this.state.handbooks, {
-                            'id':res.data[i].id.toString(),
-                            'name_handbook': res.data[i].name_handbook,
-                            'service_date': res.data[i].service_date,
-                            'doctor_id': res.data[i].doctor_id.toString(),
-                            'doctor_name': res.data[i].doctor_name,
-                            'patient_id': res.data[i].patient_id
-                        }]
-                    })
-                }
-            }
-        })
-        .catch( error => {
-            console.log('Error get handbook',error);
-        })
-    }
-
     getHeartData = () => {
         this.setState({date_end: moment(new Date()).tz( RNLocalize.getTimeZone() ).format() });
         const options = {
@@ -240,7 +198,7 @@ export default class HomeScreen extends Component {
                         )}
                         { this.state.handbooks && (
                             <View style={{marginLeft: '10%', marginRight: '10%', marginTop: '2%', marginBottom: '3%'}} >
-                                <ListHandBook data={this.state.handbooks}/>
+                                <ListHandBook/>
                             </View>
                         )}
                         </SafeAreaView>
