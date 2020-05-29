@@ -39,6 +39,7 @@
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.7.0",
     "react-native-svg": "^12.1.0",
+    "react-native-svg-transformer": "^0.14.3",
     "react-native-tab-view": "^2.13.0",
     "react-native-timezone": "^1.0.3",
     "react-native-touchable-scale": "^2.1.1",
