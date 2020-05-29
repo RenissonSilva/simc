@@ -5,6 +5,8 @@ import axios from 'axios';
 import http from '../../services/axiosconf';
 import AsyncStorage from '@react-native-community/async-storage';
 import Loading from '../Loading';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import IconLogout from '../../icon/logout.svg';
 export default class ProfileScreen extends Component {
   
   static navigationOptions = {
@@ -182,8 +184,12 @@ export default class ProfileScreen extends Component {
           <Text style={styles.dado}>E-mail: {this.state.email}</Text>
               </View>
               <TouchableOpacity
-                onPress = { this.signOut }>
-                <Text style = {styles.submitText}> Sair </Text>
+                onPress = { this.signOut }
+                style={styles.btnsignout}>
+                  <View style={styles.viewbtnsignout}>
+                    <IconLogout style={styles.iconbtnsiginout}/>
+                    <Text style={styles.textbtnsugnout}> Sair </Text>
+                  </View>
               </TouchableOpacity>
             </ScrollView>
           </View>
