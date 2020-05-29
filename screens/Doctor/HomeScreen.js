@@ -3,6 +3,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ListHandbook from '../HandBook/ListHandbook';
+import styles from './style';
 
 export default class DoctorHome extends React.Component {
 
@@ -18,18 +19,21 @@ export default class DoctorHome extends React.Component {
   render() {
     return (
         <View>
-            <Text>DoctorHome</Text>
-            <View style={{marginLeft: '10%', marginRight: '10%', marginTop: '2%', marginBottom: '3%'}} >
+            <View style={styles.listHandbook} >
               <ListHandbook/>
             </View>
+          <View>
             <TouchableOpacity
               onPress={ () => this.props.navigation.navigate('SearchUser',{nextPage: 'CreateHandBook'})}
-            > 
+              style={styles.iconaddhandbook}
+              > 
               <Icon
                 name="add"
-                size={70}
-              />
+                size={65}
+                style={styles.iconaddhandbookinto}
+                />
             </TouchableOpacity>
+          </View>
         </View>
     );
   }
