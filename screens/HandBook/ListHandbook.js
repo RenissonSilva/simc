@@ -98,7 +98,7 @@ export default function ListHandbook(){
             Component={TouchableScale}
             style={{
                 marginTop: '2%',
-                borderRadius: 30
+                borderRadius: 150
             }}
             friction={90} 
             tension={100} 
