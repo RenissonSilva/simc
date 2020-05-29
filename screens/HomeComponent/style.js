@@ -1,6 +1,28 @@
 import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
+      btnsignout:{
+        marginTop: '3%',
+        marginBottom: '3%',
+        marginLeft: '35%',
+        marginRight: '35%',
+        borderRadius: 15,
+        backgroundColor: '#FF5F54', 
+      },
+      viewbtnsignout:{
+        marginTop: '2%',
+        marginBottom: '2%',
+        justifyContent: 'center',
+        flex: 1,
+        flexDirection: 'row'
+      },
+      textbtnsugnout:{
+        color: '#fff',
+        fontSize: 16,
+      },
+      iconbtnsiginout:{
+        color: '#fff',
+      },
       cardlisthandbook:{
         marginTop: '3%',
         marginLeft: '15%'
