@@ -24,7 +24,7 @@ export default function HandBook({navigation}) {
     const [ patients, setPatients] = useState(0);
     const [selectItems, setSelectItems] =useState(true);
     const [massa_corporal, setMassa_corporal] =useState(true);
-    const [loading, setLoading] = userState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         moment.locale('pt-BR');
