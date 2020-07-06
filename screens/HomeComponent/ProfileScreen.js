@@ -91,7 +91,7 @@ export default class ProfileScreen extends Component {
     }).then(res => {
         if(res.data){
             AsyncStorage.clear();
-            if(user == 'patient'){
+            if(this.state.user == 'patient'){
               GoogleFit.disconnect();
             }
             this.props.navigation.navigate('LoadHome');
