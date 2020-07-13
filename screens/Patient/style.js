@@ -4,7 +4,7 @@ export default StyleSheet.create({
   imgUser: {
     width: 100,
     height: 100,
-    marginHorizontal: 20,
+    marginRight: 20,
     marginVertical: 20,
     borderRadius: 50,
   },
@@ -20,6 +20,10 @@ export default StyleSheet.create({
   },
   boxChat: {
     flexDirection: 'row',
+    borderTopColor: '#ccc',
+    borderTopWidth: StyleSheet.hairlineWidth,
+    width: '90%',
+    alignSelf: 'center',
   },
   boxMsg: {
     width: 210,

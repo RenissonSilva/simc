@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text, View, Image} from 'react-native';
+import {Text, View, Image, TouchableOpacity} from 'react-native';
 import styles from './style';
 
 export default class ChatScreen extends Component {
@@ -9,7 +9,7 @@ export default class ChatScreen extends Component {
   render() {
     return (
       <>
-        <View style={styles.boxChat}>
+        <TouchableOpacity style={styles.boxChat}>
           <View>
             <Image
               style={styles.imgUser}
@@ -22,9 +22,9 @@ export default class ChatScreen extends Component {
               Os resultados dos seus exames saíram hoje pela manhã.
             </Text>
           </View>
-        </View>
+        </TouchableOpacity>
 
-        <View style={styles.boxChat}>
+        <TouchableOpacity style={styles.boxChat}>
           <View>
             <Image
               style={styles.imgUser}
@@ -37,7 +37,7 @@ export default class ChatScreen extends Component {
               Teste
             </Text>
           </View>
-        </View>
+        </TouchableOpacity>
       </>
     );
   }
