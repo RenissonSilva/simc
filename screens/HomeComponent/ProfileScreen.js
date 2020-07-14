@@ -7,6 +7,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Loading from '../Loading';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconLogout from '../../icon/logout.svg';
+import moment from 'moment';
+
 export default class ProfileScreen extends Component {
   static navigationOptions = {
     title: 'Profile',
@@ -119,7 +121,6 @@ export default class ProfileScreen extends Component {
         }
       });
   };
-
   render() {
     if (this.state.loading) {
       return <Loading />;
@@ -134,7 +135,9 @@ export default class ProfileScreen extends Component {
                 source={require('../../images/profilePatient.jpg')}
               />
               <Text style={styles.nome}>{this.state.nome}</Text>
-              <Text style={styles.ano}>{this.state.datanasc}</Text>
+              <Text style={styles.ano}>
+                {moment(this.state.datanasc).format('DD/MM/YYYY')}
+              </Text>
 
               <View style={styles.containerDados}>
                 <View style={styles.infoIcon}>
