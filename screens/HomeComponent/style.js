@@ -2,11 +2,12 @@ import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
   btnsignout: {
-    marginTop: '3%',
-    marginBottom: '3%',
+    marginTop: '5%',
+    marginBottom: '5%',
     marginLeft: '35%',
     marginRight: '35%',
     borderRadius: 15,
+    padding: 5,
     backgroundColor: '#FF5F54',
   },
   viewbtnsignout: {
@@ -197,17 +198,5 @@ export default StyleSheet.create({
     width: 20,
     height: 20,
     alignSelf: 'center',
-  },
-  submitText: {
-    fontSize: 20,
-    backgroundColor: '#FF5F54',
-    color: '#fff',
-    width: 150,
-    height: 50,
-    alignSelf: 'center',
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    borderRadius: 10,
-    margin: 10,
   },
 });
