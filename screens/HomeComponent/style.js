@@ -97,6 +97,7 @@ export default StyleSheet.create({
     color: '#FF5F54',
     alignSelf: 'center',
     fontWeight: 'bold',
+    textTransform: 'capitalize',
   },
   ano: {
     fontSize: 28,
@@ -114,6 +115,7 @@ export default StyleSheet.create({
   dado: {
     fontSize: 20,
     color: '#FF5F54',
+    textTransform: 'capitalize',
   },
   imgIcon: {
     width: 30,

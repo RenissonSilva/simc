@@ -151,8 +151,10 @@ export default class ProfileScreen extends Component {
                   Telefone : {this.state.telefone}
                 </Text>
                 <Text style={styles.dado}>Sexo : {this.state.sexo}</Text>
-                <Text style={styles.dado}>E-mail: {this.state.email}</Text>
-                <Text style={styles.dado}>Ocupação: {this.state.ocupacao}</Text>
+                <Text style={styles.dado}>E-mail : {this.state.email}</Text>
+                <Text style={styles.dado}>
+                  Ocupação : {this.state.ocupacao}
+                </Text>
 
                 <View style={styles.infoIcon}>
                   <Image
@@ -163,8 +165,8 @@ export default class ProfileScreen extends Component {
                 </View>
                 <Text style={styles.dado}>{this.state.endereco}</Text>
                 <Text style={styles.dado}>{this.state.cidade}</Text>
-                <Text style={styles.dado}>Estado: {this.state.estado}</Text>
-                <Text style={styles.dado}>CEP: {this.state.cep}</Text>
+                <Text style={styles.dado}>Estado : {this.state.estado}</Text>
+                <Text style={styles.dado}>CEP : {this.state.cep}</Text>
               </View>
               <TouchableOpacity
                 onPress={this.signOut}
