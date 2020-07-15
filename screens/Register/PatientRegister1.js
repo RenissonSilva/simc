@@ -46,7 +46,7 @@ export default class PatientRegister1 extends Component {
             senha: '',
             confirmsenha: '',
           }}
-          onSubmit={values => 
+          onSubmit={values =>
             moment(values.idade, 'DD/MM/YYYY').isValid()
               ? this.props.navigation.navigate('PatientRegister2', {
                   values,
@@ -86,15 +86,15 @@ export default class PatientRegister1 extends Component {
               .max(30, 'O Campo não pode passar de 30 caracteres'),
 
             senha: yup
-            .string()
-            .min(6,'O Campo tem que ter mais de 6 caracteres')
-            .max(10,'O Campo não pode passar de 10 caracteres' )
-            .required('Senha é um campo obrigatório'),
+              .string()
+              .min(6, 'O Campo tem que ter mais de 6 caracteres')
+              .max(10, 'O Campo não pode passar de 10 caracteres')
+              .required('Senha é um campo obrigatório'),
 
             confirmsenha: yup
               .string()
-              .min(6,'O Campo tem que ter mais de 6 caracteres')
-              .max(10,'O Campo não pode passar de 10 caracteres' )
+              .min(6, 'O Campo tem que ter mais de 6 caracteres')
+              .max(10, 'O Campo não pode passar de 10 caracteres')
               .oneOf(
                 [yup.ref('senha'), null],
                 'As senhas não podem ser diferentes',
@@ -126,7 +126,7 @@ export default class PatientRegister1 extends Component {
                 )}
               </View>
 
-              <Text style={styles.textInput}>Idade</Text>
+              <Text style={styles.textInput}>Data de nascimento</Text>
               <TextInputMask
                 type={'datetime'}
                 options={{
@@ -302,10 +302,8 @@ const styles = StyleSheet.create({
     marginRight: 50,
   },
   validationError: {
-    marginTop: 20,
-    fontSize: 15,
-    color: '#e35046',
-    alignSelf: 'center',
-    fontWeight: 'bold',
+    color: '#737373',
+    textAlign: 'center',
+    marginTop: 5,
   },
 });

@@ -188,7 +188,6 @@ const styles = StyleSheet.create({
   authError: {
     color: '#737373',
     textAlign: 'center',
-    position: 'relative',
     marginTop: 5,
   },
 });
