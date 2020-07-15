@@ -175,9 +175,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#FF5F54',
     alignSelf: 'center',
     marginTop: 50,
-    height: 40,
+    height: 45,
     width: '38%',
     justifyContent: 'center',
+    borderRadius: 5,
   },
   submitText: {
     color: '#fff',
