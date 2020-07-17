@@ -18,11 +18,11 @@ export default class DoctorHome extends React.Component {
 
   render() {
     return (
-        <View>
+        <View style={styles.viewGeral}>
             <View style={styles.listHandbook} >
               <ListHandbook/>
             </View>
-          <View>
+          <View style={styles.viewPront}>
             <TouchableOpacity
               onPress={ () => this.props.navigation.navigate('SearchUser',{nextPage: 'CreateHandBook'})}
               style={styles.iconaddhandbook}

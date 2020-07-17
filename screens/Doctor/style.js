@@ -5,13 +5,9 @@ export default StyleSheet.create({
     iconaddhandbook:{
         backgroundColor: '#FF5F54',
         position:'absolute',
-        width: 60,
-        height: 65,
-        marginLeft:'2%',
-        borderRadius: 40,
-        top: 175,
-        left: 285,
-        bottom: 20,
+        borderRadius:50,
+        right:20,
+        bottom:20,
     },
     iconaddhandbookinto:{
         color: '#fff'
@@ -21,5 +17,12 @@ export default StyleSheet.create({
         marginRight: '10%',
         marginTop: '2%',
         marginBottom: '3%',
+    },
+    viewPront:{
+        flex:1,
+        flexDirection:'column-reverse',
+    },
+    viewGeral:{
+        flex:1,
     }
 });
