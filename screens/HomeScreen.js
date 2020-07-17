@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { StyleSheet, Image, TouchableOpacity, Text, View, ImageBackground, Button } from 'react-native';
 import NetInfo from "@react-native-community/netinfo";
+import Modal from 'react-native-modal';
+
 export default class HomeScreen extends React.Component {
     static navigationOptions = {
         headerShown: false
@@ -8,6 +10,7 @@ export default class HomeScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {isConnected: false}
+    this.state = {isVisible: true}
   }
   componentDidMount(){
     NetInfo.fetch().then(state => {
@@ -22,7 +25,13 @@ export default class HomeScreen extends React.Component {
         <Image style={styles.imgLogo} source={require('../images/whiteLogo.png')} />
       <View style={styles.container}>
         {!this.state.isConnected && (
-          <Text>Por favor conecte-se a internet</Text>
+          <View>
+            <Modal isVisible={!this.state.isConnected}>
+              <View style={styles.modal}>
+                <Text style={styles.textModal}>Por favor conecte-se a internet</Text>
+              </View>
+            </Modal>
+          </View>
         )}
       </View>
       <View style={styles.container}>
@@ -97,4 +106,17 @@ const styles = StyleSheet.create({
     marginBottom:50,
     marginLeft:20,
   },
+  modal:{
+    backgroundColor:'#fff',
+    height:100,
+    width:'80%',
+    borderRadius:10,
+    justifyContent:'center',
+    alignSelf:'center',
+  },
+  textModal:{
+    textAlign:'center',
+    fontWeight:'bold',
+    color:'#FF5F54',
+  }
 });
