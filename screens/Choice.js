@@ -7,6 +7,7 @@ import {
   Text,
   View,
   ImageBackground,
+  ScrollView
 } from 'react-native';
 
 export default class App extends React.Component {
@@ -17,7 +18,7 @@ export default class App extends React.Component {
   };
   render() {
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Text style={styles.textExplica}>Selecione seu perfil</Text>
         <TouchableOpacity
           style={styles.btn}
@@ -45,7 +46,16 @@ export default class App extends React.Component {
           <Icon name="user-md" size={70} color="#fff" style={styles.icon} />
           <Text style={styles.btnText}>Médico</Text>
         </TouchableOpacity>
-      </View>
+
+        <TouchableOpacity
+          style={styles.btn}
+          onPress={() => {
+            this.props.navigation.navigate('Login', {user: 'admin'});
+          }}>
+          <Icon name="user-md" size={70} color="#fff" style={styles.icon} />
+          <Text style={styles.btnText}>Admin</Text>
+        </TouchableOpacity>
+      </ScrollView>
     );
   }
 }

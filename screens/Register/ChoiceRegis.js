@@ -24,12 +24,6 @@ export default class App extends React.Component {
         <Icon name="users" size={70} color="#fff" style={styles.icon}/>
           <Text style={styles.btnText}>Familiar</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity style={styles.btn} onPress = {() => { this.props.navigation.navigate('DoctorRegister')}}
-            >
-        <Icon name="user-md" size={70} color="#fff" style={styles.icon}/>
-          <Text style={styles.btnText}>Médico</Text>
-        </TouchableOpacity>
       </View>
     );
   }

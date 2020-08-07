@@ -36,6 +36,9 @@ import RelativeChat from './screens/Relative/ChatScreen';
 import ProfileScreen from './screens/HomeComponent/ProfileScreen';
 import SearchUser from './screens/HomeComponent/SearchUser';
 
+//Admin
+import AdminHome from './screens/Admin/HomeAdmin';
+
 export default class App extends React.Component {
 
   render() {
@@ -88,6 +91,27 @@ const doctor = createMaterialTopTabNavigator(
   }
 );
 
+const admin = createMaterialTopTabNavigator(
+  {
+    DoctorRegister: DoctorRegister,
+    AdminHome: AdminHome
+  },
+  {
+    tabBarOptions: {
+      labelStyle: {
+        fontSize: 16,
+      },
+      tabStyle: {
+        width: 100,
+      },
+      style: {
+        backgroundColor: '#FF5F54',
+      },
+    },
+    swipeEnabled: true
+  }
+);
+
 const patient = createMaterialTopTabNavigator(
   {
     HomeScreen: HomeScreen,
@@ -123,7 +147,7 @@ const RootStack = createStackNavigator(
     PatientRegister2: PatientRegister2,
     RelativeRegister: RelativeRegister,
     RelativeRegister2: RelativeRegister2,
-    DoctorRegister: DoctorRegister,
+    
     CreateHandBook: CreateHandBook,
     SearchUser : SearchUser,
     Login: Login,
@@ -140,6 +164,7 @@ const Root = createSwitchNavigator(
     patient: patient,
     doctor: doctor,
     relative: relative,
+    admin: admin
 
   },
   {
