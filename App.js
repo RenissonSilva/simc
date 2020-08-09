@@ -93,8 +93,8 @@ const doctor = createMaterialTopTabNavigator(
 
 const admin = createMaterialTopTabNavigator(
   {
-    DoctorRegister: DoctorRegister,
-    AdminHome: AdminHome
+    "Painel": AdminHome,
+    "Cadastro de médico": DoctorRegister,
   },
   {
     tabBarOptions: {
