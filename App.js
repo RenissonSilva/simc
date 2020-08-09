@@ -101,9 +101,6 @@ const admin = createMaterialTopTabNavigator(
       labelStyle: {
         fontSize: 16,
       },
-      tabStyle: {
-        width: 100,
-      },
       style: {
         backgroundColor: '#FF5F54',
       },

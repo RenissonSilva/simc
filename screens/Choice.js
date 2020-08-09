@@ -29,14 +29,14 @@ export default class App extends React.Component {
           <Text style={styles.btnText}>Paciente</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={styles.btn}
           onPress={() => {
             this.props.navigation.navigate('Login', {user : 'relative'});
           }}>
           <Icon name="users" size={70} color="#fff" style={styles.icon} />
           <Text style={styles.btnText}>Familiar</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <TouchableOpacity
           style={styles.btn}
