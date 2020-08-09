@@ -83,7 +83,7 @@ export default class Login extends Component {
 
         {!this.state.loading && (
           <View>
-            {this.state.dataerror && <Text>{this.state.dataerror}</Text>}
+            {this.state.dataerror && <Text style={styles.authError2}>{this.state.dataerror}</Text>}
             <Formik
               initialValues={{
                 email: '',
@@ -189,5 +189,12 @@ const styles = StyleSheet.create({
     color: '#737373',
     textAlign: 'center',
     marginTop: 5,
+  },
+  authError2: {
+    color: '#737373',
+    textAlign: 'center',
+    fontSize:15,
+    marginTop: 20,
+    fontWeight:'bold',
   },
 });
