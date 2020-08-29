@@ -72,6 +72,7 @@ export default function ListHandbook(){
     }
       
     useEffect(() => {
+      console.log('Listando handbooks');
         if(data_handbook == 0){
             getHandbook();
         } 

@@ -27,7 +27,6 @@ export default function HandBook({navigation}) {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        moment.locale('pt-BR');
         AsyncStorage.multiGet(['Token','User','UserId'])
             .then((res) => {
                 setUser(res[1][1])
@@ -63,7 +62,7 @@ export default function HandBook({navigation}) {
                     temperatura: '',
 
                 }}
-                onSubmit={ values =>  Cadastrar_Handbook(values,token,user, navigation, userid) }
+                onSubmit={ values =>  Cadastrar_Handbook(values,token,user, navigation, userid, setLoading) }
                 validationSchema={yup.object().shape({
                     nome: yup
                         .string()
@@ -335,7 +334,7 @@ Calcular_massa_corporal = (peso, altura) =>{
 }
 
 
-function Cadastrar_Handbook(values, token, user, navigation, userid){
+function Cadastrar_Handbook(values, token, user, navigation, userid, setLoading){
     setLoading(true);
     let massa_corporal = Calcular_massa_corporal(values.peso, values.altura);
     http.post('/'+ user +'/handbook/register',querystring.stringify({

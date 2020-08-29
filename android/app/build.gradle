@@ -82,6 +82,9 @@ project.ext.react = [
 
 apply from: "../../node_modules/react-native/react.gradle"
 
+//precisa dessa linha para funcionar a lib do googlefit
+rootProject.ext.set("fitnessVersion", "18.0.0")
+
 /**
  * Set this to true to create two separate APKs instead of one:
  *   - An APK that only works on ARM devices

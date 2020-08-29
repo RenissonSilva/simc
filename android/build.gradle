@@ -6,6 +6,7 @@ buildscript {
         minSdkVersion = 16
         compileSdkVersion = 28
         targetSdkVersion = 28
+        //Precisa alterar o gradle(build) da lib do google fit e do moment e add  o compile version para 28
     }
     repositories {
         google()
@@ -36,3 +37,9 @@ allprojects {
         maven { url 'https://jitpack.io' }
     }
 }
+
+//comandos para debugar em prod
+// npx react-native log-android  -> para log 
+// ./gradlew bundleRelease  -> compilar 
+// ./gradlew assembleRelease -> compilar e gerar o apk
+// npx react-native run-android --variant=release   -> rodar no device com base no apk gerado

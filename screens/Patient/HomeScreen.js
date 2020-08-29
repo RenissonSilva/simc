@@ -24,7 +24,7 @@ export default class HomeScreen extends Component {
     
     constructor(props){
         super(props);
-        this.state = {handbooks: [],authorize: false, heartdata: '', date_end: '', loading: false, user: '', token: '', date_start: '2017-01-01T00:00:17.971Z', data_line_chart: [], token: '', user: '', userid: '' }
+        this.state = {handbooks: [],authorize: false, heartdata: '', date_end: '', loading: false, user: '', token: '', date_start: '', data_line_chart: [], token: '', user: '', userid: '' }
 
     }
     componentWillUnmount(){
@@ -62,9 +62,10 @@ export default class HomeScreen extends Component {
                     //GoogleFit.openFit()
                     this.setState({authorize: authResult.success})
                     this.setState({date_end: moment(new Date()).tz( RNLocalize.getTimeZone() ).format() });
-
+                    this.setState({date_start: moment(new Date()).subtract({h:2}).tz( RNLocalize.getTimeZone() ).format() });
+                   
                 const options = {
-                    startDate: "2017-01-01T00:00:17.971Z", // required
+                    startDate: this.state.date_start, // required
                     endDate: this.state.date_end, // required
                 }
                 const callback = ( (error, response) =>{
@@ -114,6 +115,7 @@ export default class HomeScreen extends Component {
                             })
                         }
                     }
+                    console.log(response);
                 });
 
                 GoogleFit.getHeartRateSamples(options, callback);
@@ -196,11 +198,10 @@ export default class HomeScreen extends Component {
                                 <CompLineChart data={ (this.state.data_line_chart.length > 0 ) ? this.state.data_line_chart : [0,0,0,0,0] }/>  
                             </View>
                         )}
-                        { this.state.handbooks && (
-                            <View style={{marginLeft: '10%', marginRight: '10%', marginTop: '2%', marginBottom: '3%'}} >
-                                <ListHandBook/>
-                            </View>
-                        )}
+                        <View style={{marginLeft: '10%', marginRight: '10%', marginTop: '2%', marginBottom: '3%'}} >
+                            <ListHandBook/>
+                        </View>
+                        
                         </SafeAreaView>
                     </ScrollView>
 

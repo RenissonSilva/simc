@@ -8,6 +8,7 @@ import Loading from '../Loading';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import IconLogout from '../../icon/logout.svg';
 import moment from 'moment';
+import GoogleFit from 'react-native-google-fit';
 
 export default class ProfileScreen extends Component {
   static navigationOptions = {
@@ -88,7 +89,7 @@ export default class ProfileScreen extends Component {
 
   signOut = async () => {
     this.setState({loading: true});
-
+    console.log('Deslogando...');
     await AsyncStorage.multiGet(['Token', 'User']).then(evt => {
       this.setState({token: evt[0][1]});
       this.setState({user: evt[1][1]});

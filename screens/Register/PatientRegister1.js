@@ -29,7 +29,7 @@ export default class PatientRegister1 extends Component {
     super(props);
   }
   componentDidMount() {
-    moment.locale('pt-BR');
+    //moment.locale('pt-br');
   }
 
   render() {
