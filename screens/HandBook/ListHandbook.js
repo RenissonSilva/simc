@@ -35,6 +35,7 @@ export default function ListHandbook(){
           }
         })
         .then(res => {
+          console.log("list handbook");
           var array_handbook = [];
             if(res.data.length > 1){
               if(user == 'patient'){

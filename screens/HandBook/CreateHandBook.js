@@ -343,6 +343,7 @@ Calcular_massa_corporal = (peso, altura) =>{
 function Cadastrar_Handbook(values, token, user, navigation, userid, setLoading){
     setLoading(true);
     let massa_corporal = Calcular_massa_corporal(values.peso, values.altura);
+    console.log(values);
     http.post('/'+ user +'/handbook/register',querystring.stringify({
         name_handbook: values.nome,
         limitation: values.limitacoes,
@@ -365,8 +366,9 @@ function Cadastrar_Handbook(values, token, user, navigation, userid, setLoading)
             'Authorization': token
         }
     })
-    .then( res => {
+    .then(res => {
         if(res.data){
+            console.log(res)
             navigation.navigate('DoctorHome',{msg : res.data});
         }
     })
