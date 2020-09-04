@@ -15,6 +15,14 @@ export default StyleSheet.create({
         borderBottomColor: '#FF5F54',
         borderBottomWidth: 3,
     },
+    inputUsername: {
+        height:40,
+        marginLeft: 60,
+        marginRight: 60,
+        borderBottomColor: '#FF5F54',
+        borderBottomWidth: 3,
+        paddingTop:10,
+    },
     submitButton: {
         backgroundColor: '#FF5F54',
         alignSelf: 'center',

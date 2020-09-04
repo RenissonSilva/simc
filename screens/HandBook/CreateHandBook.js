@@ -130,7 +130,7 @@ export default function HandBook({navigation}) {
                     <ScrollView style={styles.scrollView}>
                             <Text style={styles.textInput}>Nome do Paciente</Text>
                             { navigation.state.params.userName && (
-                                <Text>{navigation.state.params.userName}</Text>
+                                <Text style={styles.inputUsername}>{navigation.state.params.userName}</Text>
                             )}
                             <Text style={styles.textInput}>Nome do Prontuario</Text>
                             <TextInput
