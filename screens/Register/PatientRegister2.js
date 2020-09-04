@@ -29,8 +29,7 @@ export default class PatientRegister2 extends Component {
   }
   componentDidMount() {
     const {params} = this.props.navigation.state;
-    console.log(params);
-    moment.locale('pt-BR');
+    //console.log(params);
   }
 
   render() {
