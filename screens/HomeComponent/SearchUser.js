@@ -7,7 +7,7 @@ import { ListItem, SearchBar } from 'react-native-elements';
 import Loading from '../Loading';
 
 SearchUser.navigationOptions={
-    title: 'Search',
+    title: 'Listagem de pacientes',
     headerStyle: {backgroundColor: '#FF5F54'},
     headerTintColor: 'white',
 }

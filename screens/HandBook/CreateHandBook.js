@@ -11,6 +11,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Loading from '../Loading';
 //import {Picker} from '@react-native-community/picker';
 
+HandBook.navigationOptions={
+    title: 'Criação do prontuário',
+    headerStyle: {backgroundColor: '#FF5F54'},
+    headerTintColor: 'white',
+}
+
 import {AutoGrowingTextInput} from 'react-native-autogrow-textinput';
 
 import styles from './style';
